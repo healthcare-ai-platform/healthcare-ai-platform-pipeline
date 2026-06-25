@@ -1,0 +1,25 @@
+version: 2
+
+sources:
+  - name: raw
+    database: HEALTHCARE
+    schema: RAW
+    tables:
+      - name: ocr_extractions
+        description: "One row per document — patient demographics + report metadata"
+        columns:
+          - name: document_id
+            tests: [not_null, unique]
+          - name: tenant_id
+            tests: [not_null]
+
+      - name: ocr_results
+        description: "One row per test result — individual lab values per document"
+        columns:
+          - name: document_id
+            tests: [not_null]
+          - name: test_name
+            tests: [not_null]
+
+      - name: raw_data
+        description: "Raw file ingestion log — structured files copied from S3"

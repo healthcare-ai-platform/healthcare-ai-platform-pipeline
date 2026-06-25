@@ -1,4 +1,7 @@
+import os
+
 from common.db import get_connection
+from common.s3 import S3_BUCKET
 from common.warehouse import get_warehouse_session
 
 
@@ -39,9 +42,46 @@ def create_document_events_table():
 
 # ── Snowflake (warehouse) — analytics tables ──────────────────────────────────
 
+def create_warehouse():
+    with get_warehouse_session() as session:
+        session.sql("""
+            CREATE WAREHOUSE IF NOT EXISTS COMPUTE_WH
+                WAREHOUSE_SIZE    = 'X-SMALL'
+                AUTO_SUSPEND      = 60
+                AUTO_RESUME       = TRUE
+                INITIALLY_SUSPENDED = TRUE
+        """).collect()
+
+
+def create_database():
+    with get_warehouse_session() as session:
+        session.sql("CREATE DATABASE IF NOT EXISTS HEALTHCARE").collect()
+
+
 def create_raw_schema():
     with get_warehouse_session() as session:
         session.sql("CREATE SCHEMA IF NOT EXISTS RAW").collect()
+
+
+def create_stage():
+    """
+    Create an external stage pointing at the S3 bucket.
+    Skipped when no storage integration is configured (SQL fallback uses inline
+    credentials instead and does not need a named stage).
+    """
+    integration = os.getenv("SNOWFLAKE_STORAGE_INTEGRATION", "")
+    if not integration:
+        print("  stage: skipped (SNOWFLAKE_STORAGE_INTEGRATION not set)")
+        return
+
+    with get_warehouse_session() as session:
+        session.sql(f"""
+            CREATE STAGE IF NOT EXISTS HEALTHCARE.RAW.S3_STAGE
+                URL                 = 's3://{S3_BUCKET}/'
+                STORAGE_INTEGRATION = {integration}
+                FILE_FORMAT         = (TYPE = PARQUET)
+        """).collect()
+    print(f"  stage: HEALTHCARE.RAW.S3_STAGE → s3://{S3_BUCKET}/")
 
 
 def create_raw_data_table():
@@ -94,13 +134,31 @@ def create_ocr_results_table():
         """).collect()
 
 
+def verify():
+    """Print a quick health-check of the Snowflake environment."""
+    with get_warehouse_session() as session:
+        checks = {
+            "warehouse":  "SHOW WAREHOUSES",
+            "database":   "SHOW DATABASES",
+            "schema":     "SHOW SCHEMAS IN DATABASE HEALTHCARE",
+            "tables":     "SHOW TABLES IN SCHEMA HEALTHCARE.RAW",
+        }
+        for label, sql in checks.items():
+            rows = session.sql(sql).collect()
+            names = [r["name"] for r in rows]
+            print(f"  {label:10s}: {names}")
+
+
 def init():
     # PostgreSQL — pipeline metadata tables
     create_tracker_table()
     create_document_events_table()
 
-    # Snowflake — warehouse analytics tables
+    # Snowflake — warehouse analytics tables (order matters: WH → DB → schema → stage → tables)
+    create_warehouse()
+    create_database()
     create_raw_schema()
+    create_stage()
     create_raw_data_table()
     create_ocr_extractions_table()
     create_ocr_results_table()
@@ -108,4 +166,8 @@ def init():
 
 
 if __name__ == "__main__":
-    init()
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "verify":
+        verify()
+    else:
+        init()

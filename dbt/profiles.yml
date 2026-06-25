@@ -1,0 +1,14 @@
+# Copy this file to ~/.dbt/profiles.yml OR set DBT_PROFILES_DIR=./dbt in your env.
+healthcare:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account:   "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user:      "{{ env_var('SNOWFLAKE_USER') }}"
+      password:  "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role:      "{{ env_var('SNOWFLAKE_ROLE',      'SYSADMIN') }}"
+      database:  "{{ env_var('SNOWFLAKE_DATABASE',  'HEALTHCARE') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'COMPUTE_WH') }}"
+      schema: staging
+      threads: 4

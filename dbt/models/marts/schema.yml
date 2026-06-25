@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: dim_patients
+    description: "One row per patient per tenant — deduplicated from OCR extractions"
+    columns:
+      - name: patient_key
+        description: "MD5 surrogate key — tenant_id + (external_id or name)"
+        tests: [not_null, unique]
+      - name: tenant_id
+        tests: [not_null]
+      - name: patient_name
+        tests: [not_null]
+
+  - name: fct_lab_results
+    description: "One row per test result — all lab values with full patient context"
+    columns:
+      - name: result_key
+        description: "MD5 surrogate key — document_id + test_name"
+        tests: [not_null, unique]
+      - name: document_id
+        tests: [not_null]
+      - name: test_name
+        tests: [not_null]
+      - name: flag
+        tests:
+          - accepted_values:
+              values: ["critical", "high", "low", "borderline", "normal"]
+              quote: true
