@@ -14,6 +14,7 @@ Run from pipeline root:
 import json
 import signal
 import sys
+from pathlib import Path
 
 from kafka import KafkaConsumer  # kafka-python
 from kafka.errors import KafkaError
@@ -22,6 +23,7 @@ from common.db import get_connection
 from common.logger import get_logger
 from kafka.config import BOOTSTRAP_SERVERS, CONSUMER_GROUP, TOPIC_REPORT_RECEIVED
 from scripts.ingest import ingest_file
+from scripts.ocr import extract_pdf
 
 log = get_logger(__name__)
 
@@ -60,26 +62,45 @@ def _save_event(payload: dict):
             )
 
 
+_STRUCTURED_EXTS = {".csv", ".json", ".jsonl", ".parquet"}
+
+
 def _process(payload: dict):
     document_id = payload.get("document_id", "unknown")
-    s3_path = payload.get("s3_path", "")
+    s3_path     = payload.get("s3_path", "")
     report_type = payload.get("report_type", "raw_data")
+    tenant_id   = payload.get("tenant_id", "unknown")
 
     log.info("[%s] Processing event — report_type=%s s3_path=%s", document_id, report_type, s3_path)
 
-    # 1. Save the event metadata to the warehouse
+    # 1. Save event metadata to the warehouse — always, regardless of file type
     _save_event(payload)
     log.info("[%s] Event metadata saved to raw.document_events", document_id)
 
-    # 2. Ingest the actual file from S3 into the raw warehouse table
-    #    PDFs are stored as-is in S3; structured data (JSON, CSV, Parquet) goes into a table
     s3_key = _parse_s3_key(s3_path)
-    try:
-        ingest_file(s3_key, table=report_type)
-        log.info("[%s] File ingested from S3 into raw.%s", document_id, report_type)
-    except Exception as e:
-        # Ingestion failure doesn't stop the consumer — event is already saved
-        log.error("[%s] Ingestion failed (event still saved): %s", document_id, e)
+    ext    = Path(s3_key).suffix.lower()
+
+    if ext in _STRUCTURED_EXTS:
+        # 2a. Structured file — COPY directly from S3 bronze into the warehouse
+        try:
+            ingest_file(s3_key, table=report_type)
+            log.info("[%s] Ingested s3://%s into raw.%s", document_id, s3_key, report_type)
+        except Exception as e:
+            log.error("[%s] Ingestion failed (event still saved): %s", document_id, e)
+
+    elif ext == ".pdf":
+        # 2b. PDF — LangChain agent extracts patient + report + test results,
+        #     writes two silver Parquets, then COPY both into the warehouse.
+        try:
+            summary_key, results_key = extract_pdf(s3_key, document_id, tenant_id, report_type)
+            ingest_file(summary_key, table="ocr_extractions")
+            ingest_file(results_key, table="ocr_results")
+            log.info("[%s] OCR complete → raw.ocr_extractions + raw.ocr_results", document_id)
+        except Exception as e:
+            log.error("[%s] OCR/ingestion failed (event still saved): %s", document_id, e)
+
+    else:
+        log.warning("[%s] Unknown file type '%s' — skipping ingestion", document_id, ext)
 
 
 def run():

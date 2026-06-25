@@ -2,63 +2,91 @@ import argparse
 import os
 from pathlib import Path
 
-from common.db import get_connection
 from common.logger import get_logger
 from common.s3 import S3_BUCKET, list_s3_files
-from scripts.loaders import load_csv, load_json, load_parquet
+from common.warehouse import get_warehouse_session
 from scripts.tracker import is_loaded, mark_failed, mark_loaded
 
 log = get_logger(__name__)
 
-LOADERS = {
-    ".csv": load_csv,
-    ".parquet": load_parquet,
-    ".json": load_json,
-    ".jsonl": load_json,
+# Snowpark DataFrameReader format options per extension (storage-integration path)
+_READER_OPTIONS = {
+    ".csv":    {"format": "csv",     "options": {"SKIP_HEADER": "1", "FIELD_OPTIONALLY_ENCLOSED_BY": '"'}},
+    ".parquet":{"format": "parquet", "options": {}},
+    ".json":   {"format": "json",    "options": {}},
+    ".jsonl":  {"format": "json",    "options": {}},
 }
 
-# Format clauses for Redshift COPY — keyed by file extension
-_REDSHIFT_FORMAT = {
-    ".csv": "FORMAT AS CSV IGNOREHEADER 1",
-    ".parquet": "FORMAT AS PARQUET",
-    ".json": "FORMAT AS JSON 'auto'",
-    ".jsonl": "FORMAT AS JSON 'auto'",
+# Fallback SQL FILE_FORMAT clause used when no storage integration is configured
+_SQL_FORMAT = {
+    ".csv":    "FILE_FORMAT = (TYPE = CSV SKIP_HEADER = 1 FIELD_OPTIONALLY_ENCLOSED_BY = '\"')",
+    ".parquet":"FILE_FORMAT = (TYPE = PARQUET)  MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE",
+    ".json":   "FILE_FORMAT = (TYPE = JSON)      MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE",
+    ".jsonl":  "FILE_FORMAT = (TYPE = JSON)      MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE",
 }
 
 
-def redshift_copy_from_s3(s3_key: str, table: str, schema: str = "raw") -> int:
-    """Issue a Redshift COPY command that loads directly from S3."""
+def _rows_loaded(copy_result) -> int:
+    """Sum rows_loaded across all files in a COPY INTO result."""
+    total = 0
+    for row in copy_result:
+        status = row["status"] if "status" in row.asDict() else row[1]
+        loaded = row["rows_loaded"] if "rows_loaded" in row.asDict() else row[3]
+        if status == "LOADED":
+            total += loaded
+    return total
+
+
+def snowflake_copy_from_s3(s3_key: str, table: str, schema: str = "RAW") -> int:
+    """
+    Load an S3 file into a Snowflake table using Snowpark.
+
+    When SNOWFLAKE_STORAGE_INTEGRATION is set: uses Snowpark's DataFrameReader
+    (session.read.<format>) + copy_into_table() — fully Snowpark-native.
+
+    Without it: falls back to session.sql(COPY INTO ...) with inline AWS credentials,
+    still through the Snowpark session.
+    """
     ext = Path(s3_key).suffix.lower()
-    fmt = _REDSHIFT_FORMAT.get(ext)
-    if fmt is None:
-        raise ValueError(f"Unsupported file type for Redshift COPY: {ext}")
-
     s3_uri = f"s3://{S3_BUCKET}/{s3_key}"
-    iam_role = os.getenv("REDSHIFT_IAM_ROLE", "")
 
-    if iam_role:
-        auth = f"IAM_ROLE '{iam_role}'"
-    else:
-        key_id = os.environ["AWS_ACCESS_KEY_ID"]
-        secret = os.environ["AWS_SECRET_ACCESS_KEY"]
-        auth = f"ACCESS_KEY_ID '{key_id}' SECRET_ACCESS_KEY '{secret}'"
+    if ext not in _READER_OPTIONS:
+        raise ValueError(f"Unsupported file type for Snowpark COPY: {ext}")
 
-    sql = (
-        f"COPY {schema}.{table} "
-        f"FROM '{s3_uri}' "
-        f"{auth} "
-        f"{fmt} "
-        f"COMPUPDATE OFF STATUPDATE OFF"
-    )
+    with get_warehouse_session() as session:
+        storage_integration = os.getenv("SNOWFLAKE_STORAGE_INTEGRATION", "")
 
-    with get_connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute(sql)
-            cur.execute("SELECT pg_last_copy_count()")
-            row_count = cur.fetchone()[0]
+        if storage_integration:
+            # Snowpark-native path — DataFrameReader → copy_into_table
+            cfg   = _READER_OPTIONS[ext]
+            reader = session.read
+            for k, v in cfg["options"].items():
+                reader = reader.option(k, v)
 
-    log.info("Redshift COPY loaded %d rows from %s into %s.%s", row_count, s3_key, schema, table)
-    return row_count
+            df = getattr(reader, cfg["format"])(s3_uri)
+            result = df.copy_into_table(
+                f"{schema}.{table}",
+                force=False,
+                match_by_column_name="case_insensitive",
+            )
+        else:
+            # SQL fallback — inline AWS credentials, still through Snowpark session
+            key_id = os.environ["AWS_ACCESS_KEY_ID"]
+            secret = os.environ["AWS_SECRET_ACCESS_KEY"]
+            fmt    = _SQL_FORMAT[ext]
+            sql = (
+                f"COPY INTO {schema}.{table} "
+                f"FROM '{s3_uri}' "
+                f"CREDENTIALS = (AWS_KEY_ID='{key_id}' AWS_SECRET_KEY='{secret}') "
+                f"{fmt} "
+                f"PURGE = FALSE ON_ERROR = ABORT_STATEMENT"
+            )
+            result = session.sql(sql).collect()
+
+        rows = _rows_loaded(result)
+
+    log.info("Snowpark COPY loaded %d rows from %s into %s.%s", rows, s3_key, schema, table)
+    return rows
 
 
 def ingest_file(s3_key: str, table: str):
@@ -66,29 +94,11 @@ def ingest_file(s3_key: str, table: str):
         log.info("Skipping already-loaded file: %s", s3_key)
         return
 
-    ext = Path(s3_key).suffix.lower()
-
-    # Use native Redshift COPY when a Redshift target is configured
-    if os.getenv("USE_REDSHIFT_COPY", "").lower() in ("1", "true", "yes"):
-        try:
-            row_count = redshift_copy_from_s3(s3_key, table)
-            mark_loaded(s3_key, row_count)
-        except Exception as e:
-            log.error("Redshift COPY failed for %s: %s", s3_key, e)
-            mark_failed(s3_key, str(e))
-            raise
-        return
-
-    loader = LOADERS.get(ext)
-    if loader is None:
-        log.warning("No loader for file type '%s' — skipping %s", ext, s3_key)
-        return
-
     try:
-        row_count = loader(s3_key, table)
+        row_count = snowflake_copy_from_s3(s3_key, table)
         mark_loaded(s3_key, row_count)
     except Exception as e:
-        log.error("Failed to load %s: %s", s3_key, e)
+        log.error("Snowpark COPY failed for %s: %s", s3_key, e)
         mark_failed(s3_key, str(e))
         raise
 
@@ -101,8 +111,8 @@ def run(prefix: str = "", table: str = "raw_data"):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Ingest files from S3 into raw warehouse")
+    parser = argparse.ArgumentParser(description="Ingest files from S3 into Snowflake via Snowpark")
     parser.add_argument("--prefix", default="", help="S3 key prefix to filter files")
-    parser.add_argument("--table", default="raw_data", help="Target raw table name")
+    parser.add_argument("--table",  default="raw_data", help="Target Snowflake table name")
     args = parser.parse_args()
     run(prefix=args.prefix, table=args.table)
