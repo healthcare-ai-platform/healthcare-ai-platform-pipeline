@@ -12,11 +12,13 @@ seed-paths:  ["seeds"]
 models:
   healthcare_pipeline:
     staging:
-      +materialized: view
+      +materialized: view           # always live — reads directly from RAW
       +schema: staging
     intermediate:
-      +materialized: view
+      +materialized: view           # always live — joins on staging views
       +schema: intermediate
     marts:
-      +materialized: table
+      +materialized: dynamic_table  # Snowflake auto-refreshes every 30 seconds
+      +target_lag: "30 seconds"
+      +snowflake_warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'COMPUTE_WH') }}"
       +schema: marts

@@ -65,23 +65,52 @@ def create_raw_schema():
 
 def create_stage():
     """
-    Create an external stage pointing at the S3 bucket.
-    Skipped when no storage integration is configured (SQL fallback uses inline
-    credentials instead and does not need a named stage).
+    External stage required by Snowpipe — always created.
+    Uses a storage integration when available (preferred); falls back to inline
+    AWS credentials otherwise.
     """
-    integration = os.getenv("SNOWFLAKE_STORAGE_INTEGRATION", "")
-    if not integration:
-        print("  stage: skipped (SNOWFLAKE_STORAGE_INTEGRATION not set)")
-        return
-
     with get_warehouse_session() as session:
-        session.sql(f"""
-            CREATE STAGE IF NOT EXISTS HEALTHCARE.RAW.S3_STAGE
-                URL                 = 's3://{S3_BUCKET}/'
-                STORAGE_INTEGRATION = {integration}
-                FILE_FORMAT         = (TYPE = PARQUET)
+        integration = os.getenv("SNOWFLAKE_STORAGE_INTEGRATION", "")
+        if integration:
+            session.sql(f"""
+                CREATE STAGE IF NOT EXISTS HEALTHCARE.RAW.S3_STAGE
+                    URL                 = 's3://{S3_BUCKET}/'
+                    STORAGE_INTEGRATION = {integration}
+                    FILE_FORMAT         = (TYPE = PARQUET)
+            """).collect()
+        else:
+            key_id = os.environ["AWS_ACCESS_KEY_ID"]
+            secret = os.environ["AWS_SECRET_ACCESS_KEY"]
+            session.sql(f"""
+                CREATE STAGE IF NOT EXISTS HEALTHCARE.RAW.S3_STAGE
+                    URL         = 's3://{S3_BUCKET}/'
+                    CREDENTIALS = (AWS_KEY_ID='{key_id}' AWS_SECRET_KEY='{secret}')
+                    FILE_FORMAT = (TYPE = PARQUET)
+            """).collect()
+
+
+def create_pipes():
+    """Snowpipe definitions — one pipe per OCR output table."""
+    with get_warehouse_session() as session:
+        session.sql("""
+            CREATE PIPE IF NOT EXISTS HEALTHCARE.RAW.OCR_EXTRACTIONS_PIPE
+                COMMENT = 'Snowpipe: silver Parquet → RAW.OCR_EXTRACTIONS'
+            AS
+            COPY INTO HEALTHCARE.RAW.OCR_EXTRACTIONS
+            FROM @HEALTHCARE.RAW.S3_STAGE/processed/ocr_extractions/
+            FILE_FORMAT = (TYPE = PARQUET)
+            MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE
         """).collect()
-    print(f"  stage: HEALTHCARE.RAW.S3_STAGE → s3://{S3_BUCKET}/")
+
+        session.sql("""
+            CREATE PIPE IF NOT EXISTS HEALTHCARE.RAW.OCR_RESULTS_PIPE
+                COMMENT = 'Snowpipe: silver Parquet → RAW.OCR_RESULTS'
+            AS
+            COPY INTO HEALTHCARE.RAW.OCR_RESULTS
+            FROM @HEALTHCARE.RAW.S3_STAGE/processed/ocr_results/
+            FILE_FORMAT = (TYPE = PARQUET)
+            MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE
+        """).collect()
 
 
 def create_raw_data_table():
@@ -154,14 +183,15 @@ def init():
     create_tracker_table()
     create_document_events_table()
 
-    # Snowflake — warehouse analytics tables (order matters: WH → DB → schema → stage → tables)
+    # Snowflake — order matters: WH → DB → schema → tables → stage → pipes
     create_warehouse()
     create_database()
     create_raw_schema()
-    create_stage()
     create_raw_data_table()
     create_ocr_extractions_table()
     create_ocr_results_table()
+    create_stage()   # stage must exist before pipes
+    create_pipes()   # pipes reference stage + tables
     print("Schema initialised.")
 
 

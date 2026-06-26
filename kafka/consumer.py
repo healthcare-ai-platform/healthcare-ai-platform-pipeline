@@ -21,6 +21,7 @@ from kafka.errors import KafkaError
 
 from common.db import get_connection
 from common.logger import get_logger
+from common.snowpipe import notify as snowpipe_notify
 from kafka.config import BOOTSTRAP_SERVERS, CONSUMER_GROUP, TOPIC_REPORT_RECEIVED
 from scripts.ingest import ingest_file
 from scripts.ocr import extract_pdf
@@ -90,14 +91,14 @@ def _process(payload: dict):
 
     elif ext == ".pdf":
         # 2b. PDF — LangChain agent extracts patient + report + test results,
-        #     writes two silver Parquets, then COPY both into the warehouse.
+        #     writes two silver Parquets to S3, then Snowpipe loads them async.
         try:
             summary_key, results_key = extract_pdf(s3_key, document_id, tenant_id, report_type)
-            ingest_file(summary_key, table="ocr_extractions")
-            ingest_file(results_key, table="ocr_results")
-            log.info("[%s] OCR complete → raw.ocr_extractions + raw.ocr_results", document_id)
+            snowpipe_notify(summary_key, table="ocr_extractions")
+            snowpipe_notify(results_key, table="ocr_results")
+            log.info("[%s] OCR complete — Snowpipe notified for ocr_extractions + ocr_results", document_id)
         except Exception as e:
-            log.error("[%s] OCR/ingestion failed (event still saved): %s", document_id, e)
+            log.error("[%s] OCR/Snowpipe failed (event still saved): %s", document_id, e)
 
     else:
         log.warning("[%s] Unknown file type '%s' — skipping ingestion", document_id, ext)
