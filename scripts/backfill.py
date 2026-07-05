@@ -1,5 +1,9 @@
 import argparse
 
+from dotenv import load_dotenv
+
+load_dotenv()  # must run before local imports so env vars are set when modules load
+
 from common.logger import get_logger
 from common.s3 import list_s3_files
 from scripts.tracker import clear

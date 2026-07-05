@@ -5,15 +5,20 @@ import boto3
 S3_BUCKET = os.getenv("S3_BUCKET", "healthai-raw")
 
 
+# When AWS_ENDPOINT_URL is set (MinIO locally), boto3 routes to that endpoint.
+# When unset (real AWS — required for Snowflake to be able to read the bucket),
+# the default AWS endpoint is used automatically. Matches the backend's
+# app/api/utils/common.py:_s3_client() convention.
 def get_s3_client():
-    return boto3.client(
-        "s3",
-        aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID", "minioadmin"),
-        aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY", "minioadmin"),
-        region_name=os.getenv("AWS_REGION", "us-east-1"),
-        # Points to local MinIO in dev; remove for real AWS
-        endpoint_url=os.getenv("S3_ENDPOINT_URL", "http://localhost:9000"),
-    )
+    kwargs = {
+        "aws_access_key_id": os.getenv("AWS_ACCESS_KEY_ID", "minioadmin"),
+        "aws_secret_access_key": os.getenv("AWS_SECRET_ACCESS_KEY", "minioadmin"),
+        "region_name": os.getenv("AWS_REGION", "us-east-1"),
+    }
+    endpoint_url = os.getenv("AWS_ENDPOINT_URL")
+    if endpoint_url:
+        kwargs["endpoint_url"] = endpoint_url
+    return boto3.client("s3", **kwargs)
 
 
 def list_s3_files(prefix: str = "") -> list[str]:
@@ -30,6 +35,12 @@ def download_file(key: str) -> bytes:
     client = get_s3_client()
     response = client.get_object(Bucket=S3_BUCKET, Key=key)
     return response["Body"].read()
+
+
+def get_object_size(key: str) -> int:
+    client = get_s3_client()
+    response = client.head_object(Bucket=S3_BUCKET, Key=key)
+    return response["ContentLength"]
 
 
 def upload_bytes(key: str, data: bytes, content_type: str = "application/octet-stream") -> None:

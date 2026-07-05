@@ -1,11 +1,21 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()  # must run before local imports so env vars are set when modules load
+
 from common.db import get_connection
 from common.s3 import S3_BUCKET
 from common.warehouse import get_warehouse_session
 
 
 # ── PostgreSQL (OLTP) — pipeline operational metadata ─────────────────────────
+
+def create_postgres_raw_schema():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("CREATE SCHEMA IF NOT EXISTS raw")
+
 
 def create_tracker_table():
     with get_connection() as conn:
@@ -180,6 +190,7 @@ def verify():
 
 def init():
     # PostgreSQL — pipeline metadata tables
+    create_postgres_raw_schema()
     create_tracker_table()
     create_document_events_table()
 

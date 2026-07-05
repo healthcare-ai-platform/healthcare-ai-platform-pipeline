@@ -8,7 +8,11 @@ Flow:
       → triggers ingest of the S3 file into raw warehouse tables
 
 Run from pipeline root:
-    python -m kafka.consumer
+    python -m ingestion.consumer
+
+Note: this package is named `ingestion`, not `kafka` — a package named `kafka`
+sitting on sys.path would shadow the third-party `kafka-python` library that
+`from kafka import KafkaConsumer` below depends on.
 """
 
 import json
@@ -16,13 +20,17 @@ import signal
 import sys
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+load_dotenv()  # must run before local imports so env vars are set when modules load
+
 from kafka import KafkaConsumer  # kafka-python
 from kafka.errors import KafkaError
 
 from common.db import get_connection
 from common.logger import get_logger
 from common.snowpipe import notify as snowpipe_notify
-from kafka.config import BOOTSTRAP_SERVERS, CONSUMER_GROUP, TOPIC_REPORT_RECEIVED
+from ingestion.config import BOOTSTRAP_SERVERS, CONSUMER_GROUP, TOPIC_REPORT_RECEIVED
 from scripts.ingest import ingest_file
 from scripts.ocr import extract_pdf
 
@@ -63,6 +71,37 @@ def _save_event(payload: dict):
             )
 
 
+def _update_document_status(document_id: str, status: str, error_reason: str | None = None):
+    """
+    Reflect processing progress back onto the operational `documents` row so the
+    frontend (Documents/Queue/Dashboard) sees real status instead of a permanent
+    'received'. Without this, the row created at upload time never changes.
+    """
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            if status == "failed":
+                cur.execute(
+                    """
+                    UPDATE documents
+                    SET status = %(status)s,
+                        error_reason = %(error_reason)s,
+                        retry_count = retry_count + 1,
+                        updated_at = NOW()
+                    WHERE document_id = %(document_id)s
+                    """,
+                    {"document_id": document_id, "status": status, "error_reason": error_reason},
+                )
+            else:
+                cur.execute(
+                    """
+                    UPDATE documents
+                    SET status = %(status)s, updated_at = NOW()
+                    WHERE document_id = %(document_id)s
+                    """,
+                    {"document_id": document_id, "status": status},
+                )
+
+
 _STRUCTURED_EXTS = {".csv", ".json", ".jsonl", ".parquet"}
 
 
@@ -83,25 +122,32 @@ def _process(payload: dict):
 
     if ext in _STRUCTURED_EXTS:
         # 2a. Structured file — COPY directly from S3 bronze into the warehouse
+        _update_document_status(document_id, "extracting")
         try:
             ingest_file(s3_key, table=report_type)
             log.info("[%s] Ingested s3://%s into raw.%s", document_id, s3_key, report_type)
+            _update_document_status(document_id, "loaded")
         except Exception as e:
             log.error("[%s] Ingestion failed (event still saved): %s", document_id, e)
+            _update_document_status(document_id, "failed", error_reason=str(e))
 
     elif ext == ".pdf":
         # 2b. PDF — LangChain agent extracts patient + report + test results,
         #     writes two silver Parquets to S3, then Snowpipe loads them async.
+        _update_document_status(document_id, "ocr")
         try:
             summary_key, results_key = extract_pdf(s3_key, document_id, tenant_id, report_type)
             snowpipe_notify(summary_key, table="ocr_extractions")
             snowpipe_notify(results_key, table="ocr_results")
             log.info("[%s] OCR complete — Snowpipe notified for ocr_extractions + ocr_results", document_id)
+            _update_document_status(document_id, "extracted")
         except Exception as e:
             log.error("[%s] OCR/Snowpipe failed (event still saved): %s", document_id, e)
+            _update_document_status(document_id, "failed", error_reason=str(e))
 
     else:
         log.warning("[%s] Unknown file type '%s' — skipping ingestion", document_id, ext)
+        _update_document_status(document_id, "failed", error_reason=f"Unsupported file type '{ext}'")
 
 
 def run():

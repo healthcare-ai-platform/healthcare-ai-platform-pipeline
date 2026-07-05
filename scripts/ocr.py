@@ -18,6 +18,11 @@ log = get_logger(__name__)
 
 SILVER_PREFIX = os.getenv("SILVER_PREFIX", "processed")
 
+# Skip the Claude tool-calling agent and use canned data instead — for testing
+# the rest of the pipeline (S3 write, Snowpipe, warehouse load) without
+# spending Anthropic credits. Flip back to "false" once billing is sorted.
+OCR_MOCK_MODE = os.getenv("OCR_MOCK_MODE", "false").lower() == "true"
+
 
 # ── Mutable state the agent populates via tool calls ─────────────────────────
 
@@ -26,6 +31,33 @@ class _ExtractionState:
         self.patient: dict  = {}
         self.report:  dict  = {}
         self.results: list  = []
+
+
+def _dummy_extraction_state() -> _ExtractionState:
+    """Canned stand-in for the Claude agent's output — see OCR_MOCK_MODE."""
+    state = _ExtractionState()
+    state.patient = {
+        "patient_name":        "Test Patient",
+        "patient_external_id": "MOCK-0001",
+        "patient_dob":         "1990-01-01",
+        "patient_gender":      "other",
+    }
+    state.report = {
+        "report_date":           datetime.now(tz=timezone.utc).date().isoformat(),
+        "doctor":                "Dr. Mock",
+        "facility":              "Mock Facility",
+        "extraction_confidence": 0.0,
+    }
+    state.results = [
+        {
+            "test_name":       "Mock Test",
+            "value":           "0",
+            "unit":            "n/a",
+            "reference_range": "n/a",
+            "flag":            "normal",
+        },
+    ]
+    return state
 
 
 # ── Agent factory ─────────────────────────────────────────────────────────────
@@ -141,13 +173,17 @@ def extract_pdf(s3_key: str, document_id: str, tenant_id: str, report_type: str)
             pages.append(text.strip())
 
     full_text = "\n\n".join(pages)
-    if not full_text.strip():
+    if not full_text.strip() and not OCR_MOCK_MODE:
         raise ValueError(f"No text could be extracted from {s3_key}")
 
-    # 2. Run the LangChain extraction agent
-    state = _ExtractionState()
-    agent = _build_agent(state)
-    agent.invoke({"input": full_text[:14000]})  # stay within token budget
+    # 2. Run the LangChain extraction agent — or skip it in OCR_MOCK_MODE
+    if OCR_MOCK_MODE:
+        log.warning("[%s] OCR_MOCK_MODE enabled — using canned data instead of calling Claude", document_id)
+        state = _dummy_extraction_state()
+    else:
+        state = _ExtractionState()
+        agent = _build_agent(state)
+        agent.invoke({"input": full_text[:14000]})  # stay within token budget
 
     now          = datetime.now(tz=timezone.utc)
     extracted_at = now.isoformat()

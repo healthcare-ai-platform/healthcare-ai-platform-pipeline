@@ -13,20 +13,19 @@ Then set SNOWFLAKE_PRIVATE_KEY in your env to the PEM content of the private key
 import os
 from pathlib import Path
 
-from cryptography.hazmat.primitives.serialization import (
-    Encoding,
-    NoEncryption,
-    PrivateFormat,
-    load_pem_private_key,
-)
+from cryptography.hazmat.primitives.serialization import load_pem_private_key
 from snowflake.ingest import SimpleIngestManager, StagedFile
 
 from common.logger import get_logger
+from common.s3 import get_object_size
 
 log = get_logger(__name__)
 
 _DB     = os.getenv("SNOWFLAKE_DATABASE", "HEALTHCARE")
 _SCHEMA = os.getenv("SNOWFLAKE_SCHEMA",   "RAW")
+
+# Must match scripts/ocr.py's SILVER_PREFIX — both derive from the same env var.
+_SILVER_PREFIX = os.getenv("SILVER_PREFIX", "processed")
 
 # One pipe per (table, file extension) — all pipes created by scripts/schema.py
 _PIPE_MAP: dict[tuple[str, str], str] = {
@@ -35,14 +34,15 @@ _PIPE_MAP: dict[tuple[str, str], str] = {
 }
 
 
-def _private_key_der() -> bytes:
-    pem = os.environ["SNOWFLAKE_PRIVATE_KEY"].encode()
-    key = load_pem_private_key(pem, password=None)
-    return key.private_bytes(
-        encoding=Encoding.DER,
-        format=PrivateFormat.PKCS8,
-        encryption_algorithm=NoEncryption(),
-    )
+def _private_key_pem() -> str:
+    pem = os.environ["SNOWFLAKE_PRIVATE_KEY"]
+    # Fail fast with a clear error if the PEM is malformed, rather than letting
+    # snowflake-ingest's SecurityManager surface a confusing internal error later.
+    # snowflake-ingest's SecurityManager wants the PEM string itself — it calls
+    # .encode() and load_pem_private_key() internally — so we hand back the
+    # original string, not a pre-converted DER form.
+    load_pem_private_key(pem.encode(), password=None)
+    return pem
 
 
 def _manager(pipe: str) -> SimpleIngestManager:
@@ -52,7 +52,7 @@ def _manager(pipe: str) -> SimpleIngestManager:
         host=f"{account}.snowflakecomputing.com",
         user=os.environ["SNOWFLAKE_USER"],
         pipe=pipe,
-        private_key=_private_key_der(),
+        private_key=_private_key_pem(),
     )
 
 
@@ -67,5 +67,18 @@ def notify(s3_key: str, table: str) -> None:
     if pipe is None:
         raise ValueError(f"No Snowpipe configured for table={table!r} ext={ext!r}")
 
-    resp = _manager(pipe).ingest_files([StagedFile(s3_key)])
-    log.info("Snowpipe notified — table=%s key=%s response=%s", table, s3_key, resp)
+    # The pipe's COPY INTO is scoped to @STAGE/{_SILVER_PREFIX}/{table}/ (see
+    # scripts/schema.py:create_pipes()), so insertFiles wants the path *relative
+    # to that*, not relative to the stage root — passing the full key makes
+    # Snowflake double-prefix it and fail with "Remote file ... was not found".
+    pipe_prefix = f"{_SILVER_PREFIX}/{table}/"
+    if not s3_key.startswith(pipe_prefix):
+        raise ValueError(f"s3_key {s3_key!r} does not start with expected pipe prefix {pipe_prefix!r}")
+    relative_path = s3_key[len(pipe_prefix):]
+
+    size = get_object_size(s3_key)
+    resp = _manager(pipe).ingest_files([StagedFile(relative_path, size)])
+    log.info(
+        "Snowpipe notified — table=%s key=%s relative_path=%s size=%d response=%s",
+        table, s3_key, relative_path, size, resp,
+    )

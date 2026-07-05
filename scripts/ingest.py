@@ -2,6 +2,10 @@ import argparse
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+load_dotenv()  # must run before local imports so env vars are set when modules load
+
 from common.logger import get_logger
 from common.s3 import S3_BUCKET, list_s3_files
 from common.warehouse import get_warehouse_session
