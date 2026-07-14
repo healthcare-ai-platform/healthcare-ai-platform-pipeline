@@ -1,0 +1,1991 @@
+[0m16:50:24.551586 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105d8d760>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106dda000>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106dd9a90>]}
+
+
+============================== 16:50:24.555097 | 36b8d3b6-9ff6-4967-bd92-7f99bf1b361e ==============================
+[0m16:50:24.555097 [info ] [MainThread]: Running with dbt=1.7.19
+[0m16:50:24.555509 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'fail_fast': 'False', 'version_check': 'True', 'log_path': '/Users/adityasalabh/Desktop/Projects/healthcare-platform/healthcare-platform/healthcare-ai-platform-pipeline/dbt/logs', 'debug': 'False', 'profiles_dir': '/Users/adityasalabh/Desktop/Projects/healthcare-platform/healthcare-platform/healthcare-ai-platform-pipeline/dbt', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'introspect': 'True', 'log_format': 'default', 'target_path': 'None', 'invocation_command': 'dbt debug', 'send_anonymous_usage_stats': 'True'}
+[0m16:50:24.555931 [info ] [MainThread]: dbt version: 1.7.19
+[0m16:50:24.556164 [info ] [MainThread]: python version: 3.12.4
+[0m16:50:24.556387 [info ] [MainThread]: python path: /Users/adityasalabh/Desktop/Projects/healthcare-platform/healthcare-platform/healthcare-ai-platform-pipeline/.venv/bin/python3.12
+[0m16:50:24.556601 [info ] [MainThread]: os info: macOS-14.5-arm64-arm-64bit
+[0m16:50:25.119949 [info ] [MainThread]: Using profiles dir at /Users/adityasalabh/Desktop/Projects/healthcare-platform/healthcare-platform/healthcare-ai-platform-pipeline/dbt
+[0m16:50:25.120318 [info ] [MainThread]: Using profiles.yml file at /Users/adityasalabh/Desktop/Projects/healthcare-platform/healthcare-platform/healthcare-ai-platform-pipeline/dbt/profiles.yml
+[0m16:50:25.120552 [info ] [MainThread]: Using dbt_project.yml file at /Users/adityasalabh/Desktop/Projects/healthcare-platform/healthcare-platform/healthcare-ai-platform-pipeline/dbt/dbt_project.yml
+[0m16:50:25.121082 [info ] [MainThread]: adapter type: snowflake
+[0m16:50:25.121301 [info ] [MainThread]: adapter version: 1.7.5
+[0m16:50:25.177058 [info ] [MainThread]: Configuration:
+[0m16:50:25.177534 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m16:50:25.177827 [info ] [MainThread]:   dbt_project.yml file [[32mOK found and valid[0m]
+[0m16:50:25.178063 [info ] [MainThread]: Required dependencies:
+[0m16:50:25.178367 [debug] [MainThread]: Executing "git --help"
+[0m16:50:25.205709 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone     Clone a repository into a new directory\n   init      Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add       Add file contents to the index\n   mv        Move or rename a file, a directory, or a symlink\n   restore   Restore working tree files\n   rm        Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect    Use binary search to find the commit that introduced a bug\n   diff      Show changes between commits, commit and working tree, etc\n   grep      Print lines matching a pattern\n   log       Show commit logs\n   show      Show various types of objects\n   status    Show the working tree status\n\ngrow, mark and tweak your common history\n   branch    List, create, or delete branches\n   commit    Record changes to the repository\n   merge     Join two or more development histories together\n   rebase    Reapply commits on top of another base tip\n   reset     Reset current HEAD to the specified state\n   switch    Switch branches\n   tag       Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch     Download objects and refs from another repository\n   pull      Fetch from and integrate with another repository or a local branch\n   push      Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m16:50:25.206483 [debug] [MainThread]: STDERR: "b''"
+[0m16:50:25.206783 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m16:50:25.207038 [info ] [MainThread]: Connection:
+[0m16:50:25.207301 [info ] [MainThread]:   account: do35911.ap-southeast-7.aws
+[0m16:50:25.207520 [info ] [MainThread]:   user: ADITYASALABH
+[0m16:50:25.207725 [info ] [MainThread]:   database: HEALTHCARE
+[0m16:50:25.207927 [info ] [MainThread]:   warehouse: COMPUTE_WH
+[0m16:50:25.208128 [info ] [MainThread]:   role: SYSADMIN
+[0m16:50:25.208333 [info ] [MainThread]:   schema: staging
+[0m16:50:25.208535 [info ] [MainThread]:   authenticator: None
+[0m16:50:25.208731 [info ] [MainThread]:   oauth_client_id: None
+[0m16:50:25.208929 [info ] [MainThread]:   query_tag: None
+[0m16:50:25.209125 [info ] [MainThread]:   client_session_keep_alive: False
+[0m16:50:25.209321 [info ] [MainThread]:   host: None
+[0m16:50:25.209522 [info ] [MainThread]:   port: None
+[0m16:50:25.209718 [info ] [MainThread]:   proxy_host: None
+[0m16:50:25.209918 [info ] [MainThread]:   proxy_port: None
+[0m16:50:25.210117 [info ] [MainThread]:   protocol: None
+[0m16:50:25.210309 [info ] [MainThread]:   connect_retries: 1
+[0m16:50:25.210500 [info ] [MainThread]:   connect_timeout: None
+[0m16:50:25.210696 [info ] [MainThread]:   retry_on_database_errors: False
+[0m16:50:25.210891 [info ] [MainThread]:   retry_all: False
+[0m16:50:25.211082 [info ] [MainThread]:   insecure_mode: False
+[0m16:50:25.211276 [info ] [MainThread]:   reuse_connections: None
+[0m16:50:25.211600 [info ] [MainThread]: Registered adapter: snowflake=1.7.5
+[0m16:50:25.214921 [debug] [MainThread]: Acquiring new snowflake connection 'debug'
+[0m16:50:25.215909 [debug] [MainThread]: Using snowflake connection "debug"
+[0m16:50:25.216134 [debug] [MainThread]: On debug: select 1 as id
+[0m16:50:25.216359 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m16:50:27.466410 [debug] [MainThread]: SQL status: SUCCESS 1 in 2.0 seconds
+[0m16:50:27.468029 [debug] [MainThread]: On debug: Close
+[0m16:50:27.828200 [info ] [MainThread]:   Connection test: [[32mOK connection ok[0m]
+
+[0m16:50:27.828673 [info ] [MainThread]: [32mAll checks passed![0m
+[0m16:50:27.882497 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_success": true, "command_wall_clock_time": 3.375966, "process_user_time": 1.517293, "process_kernel_time": 0.289092, "process_mem_max_rss": "206553088", "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m16:50:27.883187 [debug] [MainThread]: Command `dbt debug` succeeded at 16:50:27.883035 after 3.38 seconds
+[0m16:50:27.883610 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m16:50:27.883964 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11f8341a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105d8d760>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106d796d0>]}
+[0m16:50:27.884519 [debug] [MainThread]: Flushing usage events
+[0m16:50:50.487595 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107cab5f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x112c5a420>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x112c59e80>]}
+
+
+============================== 16:50:50.491460 | ea2ca681-9360-47c8-a60a-99685aefd060 ==============================
+[0m16:50:50.491460 [info ] [MainThread]: Running with dbt=1.7.19
+[0m16:50:50.491906 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'debug': 'False', 'version_check': 'True', 'log_path': '/Users/adityasalabh/Desktop/Projects/healthcare-platform/healthcare-platform/healthcare-ai-platform-pipeline/dbt/logs', 'profiles_dir': '/Users/adityasalabh/Desktop/Projects/healthcare-platform/healthcare-platform/healthcare-ai-platform-pipeline/dbt', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'introspect': 'True', 'invocation_command': 'dbt build', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m16:50:51.118241 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'ea2ca681-9360-47c8-a60a-99685aefd060', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1223168a0>]}
+[0m16:50:51.163554 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'ea2ca681-9360-47c8-a60a-99685aefd060', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x121d64f80>]}
+[0m16:50:51.164406 [info ] [MainThread]: Registered adapter: snowflake=1.7.5
+[0m16:50:51.174387 [debug] [MainThread]: checksum: a8d43cdff37d0f32d7fbe4c5c25bea4bb6c86e162f8ce8fdb1a38cdcf7495431, vars: {}, profile: , target: , version: 1.7.19
+[0m16:50:51.175070 [info ] [MainThread]: Unable to do partial parsing because saved manifest not found. Starting full parse.
+[0m16:50:51.175361 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': 'ea2ca681-9360-47c8-a60a-99685aefd060', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x12591d640>]}
+[0m16:50:51.861493 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'ea2ca681-9360-47c8-a60a-99685aefd060', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x125fc29f0>]}
+[0m16:50:51.868720 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'ea2ca681-9360-47c8-a60a-99685aefd060', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x125c33da0>]}
+[0m16:50:51.869061 [info ] [MainThread]: Found 5 models, 14 tests, 3 sources, 0 exposures, 0 metrics, 431 macros, 0 groups, 0 semantic models
+[0m16:50:51.870403 [info ] [MainThread]: 
+[0m16:50:51.870895 [debug] [MainThread]: Acquiring new snowflake connection 'master'
+[0m16:50:51.871597 [debug] [ThreadPool]: Acquiring new snowflake connection 'list_HEALTHCARE'
+[0m16:50:51.878247 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE"
+[0m16:50:51.878725 [debug] [ThreadPool]: Acquiring new snowflake connection 'list_HEALTHCARE'
+[0m16:50:51.878964 [debug] [ThreadPool]: On list_HEALTHCARE: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE"} */
+show terse schemas in database HEALTHCARE
+    limit 10000
+[0m16:50:51.879527 [debug] [ThreadPool]: Acquiring new snowflake connection 'list_HEALTHCARE'
+[0m16:50:51.880736 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE"
+[0m16:50:51.881001 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:50:51.882114 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE"
+[0m16:50:51.882353 [debug] [ThreadPool]: On list_HEALTHCARE: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE"} */
+show terse schemas in database HEALTHCARE
+    limit 10000
+[0m16:50:51.882716 [debug] [ThreadPool]: On list_HEALTHCARE: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE"} */
+show terse schemas in database HEALTHCARE
+    limit 10000
+[0m16:50:51.883598 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:50:51.883888 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:50:53.596709 [debug] [ThreadPool]: SQL status: SUCCESS 3 in 2.0 seconds
+[0m16:50:53.599101 [debug] [ThreadPool]: On list_HEALTHCARE: Close
+[0m16:50:53.613109 [debug] [ThreadPool]: SQL status: SUCCESS 3 in 2.0 seconds
+[0m16:50:53.614415 [debug] [ThreadPool]: On list_HEALTHCARE: Close
+[0m16:50:53.616443 [debug] [ThreadPool]: SQL status: SUCCESS 3 in 2.0 seconds
+[0m16:50:53.618519 [debug] [ThreadPool]: On list_HEALTHCARE: Close
+[0m16:50:53.926940 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_HEALTHCARE, now create_HEALTHCARE_staging_intermediate)
+[0m16:50:53.927738 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_HEALTHCARE, now create_HEALTHCARE_staging_staging)
+[0m16:50:53.928415 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_HEALTHCARE, now create_HEALTHCARE_staging_marts)
+[0m16:50:53.929230 [debug] [ThreadPool]: Creating schema "database: "HEALTHCARE"
+schema: "staging_intermediate"
+"
+[0m16:50:53.929895 [debug] [ThreadPool]: Creating schema "database: "HEALTHCARE"
+schema: "staging_staging"
+"
+[0m16:50:53.931817 [debug] [ThreadPool]: Creating schema "database: "HEALTHCARE"
+schema: "staging_marts"
+"
+[0m16:50:53.947947 [debug] [ThreadPool]: Using snowflake connection "create_HEALTHCARE_staging_intermediate"
+[0m16:50:53.949932 [debug] [ThreadPool]: Using snowflake connection "create_HEALTHCARE_staging_staging"
+[0m16:50:53.952940 [debug] [ThreadPool]: Using snowflake connection "create_HEALTHCARE_staging_marts"
+[0m16:50:53.953376 [debug] [ThreadPool]: On create_HEALTHCARE_staging_intermediate: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "create_HEALTHCARE_staging_intermediate"} */
+create schema if not exists HEALTHCARE.staging_intermediate
+[0m16:50:53.953687 [debug] [ThreadPool]: On create_HEALTHCARE_staging_staging: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "create_HEALTHCARE_staging_staging"} */
+create schema if not exists HEALTHCARE.staging_staging
+[0m16:50:53.953976 [debug] [ThreadPool]: On create_HEALTHCARE_staging_marts: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "create_HEALTHCARE_staging_marts"} */
+create schema if not exists HEALTHCARE.staging_marts
+[0m16:50:53.954276 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m16:50:53.954540 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m16:50:53.954800 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m16:50:55.081987 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:50:55.084180 [debug] [ThreadPool]: On create_HEALTHCARE_staging_intermediate: Close
+[0m16:50:55.163406 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:50:55.165266 [debug] [ThreadPool]: On create_HEALTHCARE_staging_staging: Close
+[0m16:50:55.266334 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:50:55.268369 [debug] [ThreadPool]: On create_HEALTHCARE_staging_marts: Close
+[0m16:50:55.610382 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly create_HEALTHCARE_staging_staging, now list_HEALTHCARE_staging_intermediate)
+[0m16:50:55.611781 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly create_HEALTHCARE_staging_marts, now list_HEALTHCARE_staging_staging)
+[0m16:50:55.613041 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly create_HEALTHCARE_staging_intermediate, now list_HEALTHCARE_staging_marts)
+[0m16:50:55.626202 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE_staging_intermediate"
+[0m16:50:55.629211 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE_staging_staging"
+[0m16:50:55.631575 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE_staging_marts"
+[0m16:50:55.632079 [debug] [ThreadPool]: On list_HEALTHCARE_staging_intermediate: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE_staging_intermediate"} */
+show objects in HEALTHCARE.staging_intermediate limit 10000
+[0m16:50:55.632554 [debug] [ThreadPool]: On list_HEALTHCARE_staging_staging: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE_staging_staging"} */
+show objects in HEALTHCARE.staging_staging limit 10000
+[0m16:50:55.633017 [debug] [ThreadPool]: On list_HEALTHCARE_staging_marts: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE_staging_marts"} */
+show objects in HEALTHCARE.staging_marts limit 10000
+[0m16:50:55.633467 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m16:50:55.633921 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m16:50:55.634335 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m16:50:56.580965 [debug] [ThreadPool]: SQL status: SUCCESS 0 in 1.0 seconds
+[0m16:50:56.584609 [debug] [ThreadPool]: On list_HEALTHCARE_staging_marts: Close
+[0m16:50:56.607327 [debug] [ThreadPool]: SQL status: SUCCESS 0 in 1.0 seconds
+[0m16:50:56.609634 [debug] [ThreadPool]: On list_HEALTHCARE_staging_staging: Close
+[0m16:50:56.624768 [debug] [ThreadPool]: SQL status: SUCCESS 0 in 1.0 seconds
+[0m16:50:56.626839 [debug] [ThreadPool]: On list_HEALTHCARE_staging_intermediate: Close
+[0m16:50:56.960254 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'ea2ca681-9360-47c8-a60a-99685aefd060', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1263eb080>]}
+[0m16:50:56.962173 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m16:50:56.962873 [info ] [MainThread]: 
+[0m16:50:56.964975 [debug] [Thread-1 (]: Began running node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f
+[0m16:50:56.965662 [debug] [Thread-2 (]: Began running node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7
+[0m16:50:56.966359 [debug] [Thread-3 (]: Began running node test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8
+[0m16:50:56.966918 [debug] [Thread-4 (]: Began running node test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10
+[0m16:50:56.967547 [info ] [Thread-1 (]: 1 of 19 START test source_not_null_raw_ocr_extractions_document_id ............. [RUN]
+[0m16:50:56.968214 [info ] [Thread-2 (]: 2 of 19 START test source_not_null_raw_ocr_extractions_tenant_id ............... [RUN]
+[0m16:50:56.968824 [info ] [Thread-3 (]: 3 of 19 START test source_not_null_raw_ocr_results_document_id ................. [RUN]
+[0m16:50:56.969427 [info ] [Thread-4 (]: 4 of 19 START test source_not_null_raw_ocr_results_test_name ................... [RUN]
+[0m16:50:56.970418 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_HEALTHCARE_staging_intermediate, now test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f)
+[0m16:50:56.971314 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly list_HEALTHCARE_staging_staging, now test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7)
+[0m16:50:56.972185 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly list_HEALTHCARE_staging_marts, now test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8)
+[0m16:50:56.973237 [debug] [Thread-4 (]: Acquiring new snowflake connection 'test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10'
+[0m16:50:56.973834 [debug] [Thread-1 (]: Began compiling node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f
+[0m16:50:56.974375 [debug] [Thread-2 (]: Began compiling node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7
+[0m16:50:56.974850 [debug] [Thread-3 (]: Began compiling node test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8
+[0m16:50:56.975307 [debug] [Thread-4 (]: Began compiling node test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10
+[0m16:50:57.082800 [debug] [Thread-1 (]: Writing injected SQL for node "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f"
+[0m16:50:57.085184 [debug] [Thread-2 (]: Writing injected SQL for node "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7"
+[0m16:50:57.087288 [debug] [Thread-3 (]: Writing injected SQL for node "test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8"
+[0m16:50:57.089339 [debug] [Thread-4 (]: Writing injected SQL for node "test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10"
+[0m16:50:57.090274 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7 (compile): 16:50:57.083092 => 16:50:57.090082
+[0m16:50:57.090588 [debug] [Thread-2 (]: Began executing node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7
+[0m16:50:57.097210 [debug] [Thread-3 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8 (compile): 16:50:57.085397 => 16:50:57.097045
+[0m16:50:57.097489 [debug] [Thread-3 (]: Began executing node test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8
+[0m16:50:57.103476 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f (compile): 16:50:56.975648 => 16:50:57.103307
+[0m16:50:57.105275 [debug] [Thread-3 (]: Writing runtime sql for node "test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8"
+[0m16:50:57.105584 [debug] [Thread-4 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10 (compile): 16:50:57.087477 => 16:50:57.105455
+[0m16:50:57.107591 [debug] [Thread-2 (]: Writing runtime sql for node "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7"
+[0m16:50:57.107843 [debug] [Thread-1 (]: Began executing node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f
+[0m16:50:57.108189 [debug] [Thread-4 (]: Began executing node test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10
+[0m16:50:57.109734 [debug] [Thread-1 (]: Writing runtime sql for node "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f"
+[0m16:50:57.111172 [debug] [Thread-4 (]: Writing runtime sql for node "test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10"
+[0m16:50:57.111917 [debug] [Thread-2 (]: Using snowflake connection "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7"
+[0m16:50:57.112358 [debug] [Thread-3 (]: Using snowflake connection "test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8"
+[0m16:50:57.112728 [debug] [Thread-1 (]: Using snowflake connection "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f"
+[0m16:50:57.112966 [debug] [Thread-2 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select tenant_id
+from HEALTHCARE.RAW.ocr_extractions
+where tenant_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:50:57.113358 [debug] [Thread-4 (]: Using snowflake connection "test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10"
+[0m16:50:57.113612 [debug] [Thread-3 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select document_id
+from HEALTHCARE.RAW.ocr_results
+where document_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:50:57.113866 [debug] [Thread-1 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select document_id
+from HEALTHCARE.RAW.ocr_extractions
+where document_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:50:57.114102 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m16:50:57.114343 [debug] [Thread-4 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select test_name
+from HEALTHCARE.RAW.ocr_results
+where test_name is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:50:57.114575 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m16:50:57.114808 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m16:50:57.115091 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m16:50:58.734298 [debug] [Thread-3 (]: SQL status: SUCCESS 1 in 2.0 seconds
+[0m16:50:58.736195 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 2.0 seconds
+[0m16:50:58.737091 [debug] [Thread-1 (]: SQL status: SUCCESS 1 in 2.0 seconds
+[0m16:50:58.738020 [debug] [Thread-4 (]: SQL status: SUCCESS 1 in 2.0 seconds
+[0m16:50:58.749751 [debug] [Thread-3 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8 (execute): 16:50:57.097650 => 16:50:58.748541
+[0m16:50:58.754658 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7 (execute): 16:50:57.090772 => 16:50:58.754328
+[0m16:50:58.756827 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f (execute): 16:50:57.108427 => 16:50:58.756535
+[0m16:50:58.759463 [debug] [Thread-4 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10 (execute): 16:50:57.109941 => 16:50:58.759185
+[0m16:50:58.760207 [debug] [Thread-3 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8: Close
+[0m16:50:58.760640 [debug] [Thread-2 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7: Close
+[0m16:50:58.761069 [debug] [Thread-1 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f: Close
+[0m16:50:58.761526 [debug] [Thread-4 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10: Close
+[0m16:50:59.190001 [info ] [Thread-2 (]: 2 of 19 PASS source_not_null_raw_ocr_extractions_tenant_id ..................... [[32mPASS[0m in 2.22s]
+[0m16:50:59.191412 [info ] [Thread-1 (]: 1 of 19 PASS source_not_null_raw_ocr_extractions_document_id ................... [[32mPASS[0m in 2.22s]
+[0m16:50:59.192628 [info ] [Thread-4 (]: 4 of 19 PASS source_not_null_raw_ocr_results_test_name ......................... [[32mPASS[0m in 2.22s]
+[0m16:50:59.193796 [info ] [Thread-3 (]: 3 of 19 PASS source_not_null_raw_ocr_results_document_id ....................... [[32mPASS[0m in 2.22s]
+[0m16:50:59.194755 [debug] [Thread-2 (]: Finished running node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7
+[0m16:50:59.195572 [debug] [Thread-1 (]: Finished running node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f
+[0m16:50:59.196312 [debug] [Thread-4 (]: Finished running node test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10
+[0m16:50:59.197036 [debug] [Thread-3 (]: Finished running node test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8
+[0m16:50:59.197770 [debug] [Thread-2 (]: Began running node test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3
+[0m16:50:59.199368 [debug] [Thread-1 (]: Began running node model.healthcare_pipeline.stg_ocr_results
+[0m16:50:59.199951 [info ] [Thread-2 (]: 5 of 19 START test source_unique_raw_ocr_extractions_document_id ............... [RUN]
+[0m16:50:59.200864 [info ] [Thread-1 (]: 6 of 19 START sql view model staging_staging.stg_ocr_results ................... [RUN]
+[0m16:50:59.201755 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7, now test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3)
+[0m16:50:59.202534 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f, now model.healthcare_pipeline.stg_ocr_results)
+[0m16:50:59.203104 [debug] [Thread-2 (]: Began compiling node test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3
+[0m16:50:59.203642 [debug] [Thread-1 (]: Began compiling node model.healthcare_pipeline.stg_ocr_results
+[0m16:50:59.213549 [debug] [Thread-2 (]: Writing injected SQL for node "test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3"
+[0m16:50:59.216478 [debug] [Thread-1 (]: Writing injected SQL for node "model.healthcare_pipeline.stg_ocr_results"
+[0m16:50:59.217511 [debug] [Thread-1 (]: Timing info for model.healthcare_pipeline.stg_ocr_results (compile): 16:50:59.214007 => 16:50:59.217209
+[0m16:50:59.218136 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3 (compile): 16:50:59.204027 => 16:50:59.217865
+[0m16:50:59.218591 [debug] [Thread-1 (]: Began executing node model.healthcare_pipeline.stg_ocr_results
+[0m16:50:59.219061 [debug] [Thread-2 (]: Began executing node test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3
+[0m16:50:59.242594 [debug] [Thread-1 (]: Writing runtime sql for node "model.healthcare_pipeline.stg_ocr_results"
+[0m16:50:59.244897 [debug] [Thread-2 (]: Writing runtime sql for node "test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3"
+[0m16:50:59.246255 [debug] [Thread-1 (]: Using snowflake connection "model.healthcare_pipeline.stg_ocr_results"
+[0m16:50:59.246897 [debug] [Thread-2 (]: Using snowflake connection "test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3"
+[0m16:50:59.247313 [debug] [Thread-1 (]: On model.healthcare_pipeline.stg_ocr_results: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "model.healthcare_pipeline.stg_ocr_results"} */
+create or replace   view HEALTHCARE.staging_staging.stg_ocr_results
+  
+   as (
+    with source as (
+    select * from HEALTHCARE.RAW.ocr_results
+),
+
+cleaned as (
+    select
+        document_id,
+        tenant_id,
+
+        -- normalise test name and unit
+        trim(lower(test_name))                          as test_name,
+        trim(value)                                     as value,
+        try_to_number(value)                            as value_numeric,   -- null when non-numeric (e.g. "Positive")
+        trim(lower(unit))                               as unit,
+        trim(reference_range)                           as reference_range,
+        lower(trim(flag))                               as flag,            -- critical | high | low | borderline | normal
+
+        extracted_at::timestamp_tz                      as extracted_at
+    from source
+    where document_id is not null
+      and test_name    is not null
+)
+
+select * from cleaned
+  );
+[0m16:50:59.247741 [debug] [Thread-2 (]: On test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+select
+    document_id as unique_field,
+    count(*) as n_records
+
+from HEALTHCARE.RAW.ocr_extractions
+where document_id is not null
+group by document_id
+having count(*) > 1
+
+
+
+      
+    ) dbt_internal_test
+[0m16:50:59.248135 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m16:50:59.248459 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m16:51:00.337181 [debug] [Thread-1 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:51:00.357353 [debug] [Thread-1 (]: Timing info for model.healthcare_pipeline.stg_ocr_results (execute): 16:50:59.219355 => 16:51:00.357051
+[0m16:51:00.358103 [debug] [Thread-1 (]: On model.healthcare_pipeline.stg_ocr_results: Close
+[0m16:51:00.364710 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:51:00.367002 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3 (execute): 16:50:59.242927 => 16:51:00.366733
+[0m16:51:00.367510 [debug] [Thread-2 (]: On test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3: Close
+[0m16:51:00.801248 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ea2ca681-9360-47c8-a60a-99685aefd060', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x125f54b00>]}
+[0m16:51:00.802786 [info ] [Thread-1 (]: 6 of 19 OK created sql view model staging_staging.stg_ocr_results .............. [[32mSUCCESS 1[0m in 1.60s]
+[0m16:51:00.803981 [debug] [Thread-1 (]: Finished running node model.healthcare_pipeline.stg_ocr_results
+[0m16:51:00.810990 [info ] [Thread-2 (]: 5 of 19 PASS source_unique_raw_ocr_extractions_document_id ..................... [[32mPASS[0m in 1.61s]
+[0m16:51:00.812032 [debug] [Thread-2 (]: Finished running node test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3
+[0m16:51:00.813348 [debug] [Thread-3 (]: Began running node model.healthcare_pipeline.stg_ocr_extractions
+[0m16:51:00.814168 [info ] [Thread-3 (]: 7 of 19 START sql view model staging_staging.stg_ocr_extractions ............... [RUN]
+[0m16:51:00.815256 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8, now model.healthcare_pipeline.stg_ocr_extractions)
+[0m16:51:00.815883 [debug] [Thread-3 (]: Began compiling node model.healthcare_pipeline.stg_ocr_extractions
+[0m16:51:00.821966 [debug] [Thread-3 (]: Writing injected SQL for node "model.healthcare_pipeline.stg_ocr_extractions"
+[0m16:51:00.823186 [debug] [Thread-3 (]: Timing info for model.healthcare_pipeline.stg_ocr_extractions (compile): 16:51:00.816262 => 16:51:00.822893
+[0m16:51:00.823733 [debug] [Thread-3 (]: Began executing node model.healthcare_pipeline.stg_ocr_extractions
+[0m16:51:00.827416 [debug] [Thread-3 (]: Writing runtime sql for node "model.healthcare_pipeline.stg_ocr_extractions"
+[0m16:51:00.829297 [debug] [Thread-3 (]: Using snowflake connection "model.healthcare_pipeline.stg_ocr_extractions"
+[0m16:51:00.829930 [debug] [Thread-3 (]: On model.healthcare_pipeline.stg_ocr_extractions: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "model.healthcare_pipeline.stg_ocr_extractions"} */
+create or replace   view HEALTHCARE.staging_staging.stg_ocr_extractions
+  
+   as (
+    with source as (
+    select * from HEALTHCARE.RAW.ocr_extractions
+),
+
+cleaned as (
+    select
+        document_id,
+        tenant_id,
+        report_type,
+
+        -- patient demographics — normalise whitespace and casing
+        trim(patient_name)                              as patient_name,
+        trim(patient_external_id)                       as patient_external_id,
+        try_to_date(patient_dob,    'YYYY-MM-DD')       as patient_dob,
+        lower(trim(patient_gender))                     as patient_gender,
+
+        -- report metadata
+        try_to_date(report_date, 'YYYY-MM-DD')          as report_date,
+        trim(doctor)                                    as doctor,
+        trim(facility)                                  as facility,
+
+        -- quality signals
+        extraction_status,
+        extraction_confidence::float                    as extraction_confidence,
+        extracted_at::timestamp_tz                      as extracted_at
+    from source
+    where document_id is not null
+)
+
+select * from cleaned
+  );
+[0m16:51:00.830492 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m16:51:02.741445 [debug] [Thread-3 (]: SQL status: SUCCESS 1 in 2.0 seconds
+[0m16:51:02.753349 [debug] [Thread-3 (]: Timing info for model.healthcare_pipeline.stg_ocr_extractions (execute): 16:51:00.824069 => 16:51:02.752547
+[0m16:51:02.754352 [debug] [Thread-3 (]: On model.healthcare_pipeline.stg_ocr_extractions: Close
+[0m16:51:03.235137 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ea2ca681-9360-47c8-a60a-99685aefd060', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1261933e0>]}
+[0m16:51:03.237152 [info ] [Thread-3 (]: 7 of 19 OK created sql view model staging_staging.stg_ocr_extractions .......... [[32mSUCCESS 1[0m in 2.42s]
+[0m16:51:03.238236 [debug] [Thread-3 (]: Finished running node model.healthcare_pipeline.stg_ocr_extractions
+[0m16:51:03.242148 [debug] [Thread-1 (]: Began running node model.healthcare_pipeline.dim_patients
+[0m16:51:03.242856 [debug] [Thread-2 (]: Began running node model.healthcare_pipeline.int_patient_documents
+[0m16:51:03.243598 [info ] [Thread-1 (]: 8 of 19 START sql dynamic_table model staging_marts.dim_patients ............... [RUN]
+[0m16:51:03.244176 [info ] [Thread-2 (]: 9 of 19 START sql view model staging_intermediate.int_patient_documents ........ [RUN]
+[0m16:51:03.248910 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.healthcare_pipeline.stg_ocr_results, now model.healthcare_pipeline.dim_patients)
+[0m16:51:03.250509 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3, now model.healthcare_pipeline.int_patient_documents)
+[0m16:51:03.251116 [debug] [Thread-1 (]: Began compiling node model.healthcare_pipeline.dim_patients
+[0m16:51:03.251847 [debug] [Thread-2 (]: Began compiling node model.healthcare_pipeline.int_patient_documents
+[0m16:51:03.260464 [debug] [Thread-1 (]: Writing injected SQL for node "model.healthcare_pipeline.dim_patients"
+[0m16:51:03.263280 [debug] [Thread-2 (]: Writing injected SQL for node "model.healthcare_pipeline.int_patient_documents"
+[0m16:51:03.264439 [debug] [Thread-2 (]: Timing info for model.healthcare_pipeline.int_patient_documents (compile): 16:51:03.260871 => 16:51:03.264196
+[0m16:51:03.264903 [debug] [Thread-1 (]: Timing info for model.healthcare_pipeline.dim_patients (compile): 16:51:03.252255 => 16:51:03.264714
+[0m16:51:03.265282 [debug] [Thread-2 (]: Began executing node model.healthcare_pipeline.int_patient_documents
+[0m16:51:03.265658 [debug] [Thread-1 (]: Began executing node model.healthcare_pipeline.dim_patients
+[0m16:51:03.268765 [debug] [Thread-2 (]: Writing runtime sql for node "model.healthcare_pipeline.int_patient_documents"
+[0m16:51:03.284754 [debug] [Thread-1 (]: Applying CREATE to: HEALTHCARE.staging_marts.dim_patients
+[0m16:51:03.291129 [debug] [Thread-1 (]: Writing runtime sql for node "model.healthcare_pipeline.dim_patients"
+[0m16:51:03.292664 [debug] [Thread-2 (]: Using snowflake connection "model.healthcare_pipeline.int_patient_documents"
+[0m16:51:03.293184 [debug] [Thread-2 (]: On model.healthcare_pipeline.int_patient_documents: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "model.healthcare_pipeline.int_patient_documents"} */
+create or replace   view HEALTHCARE.staging_intermediate.int_patient_documents
+  
+   as (
+    -- Join document-level metadata with every test result it contains.
+-- One row per (document, test_result) pair.
+with extractions as (
+    select * from HEALTHCARE.staging_staging.stg_ocr_extractions
+),
+
+results as (
+    select * from HEALTHCARE.staging_staging.stg_ocr_results
+),
+
+joined as (
+    select
+        -- document identity
+        e.document_id,
+        e.tenant_id,
+        e.report_type,
+
+        -- patient context
+        e.patient_name,
+        e.patient_external_id,
+        e.patient_dob,
+        e.patient_gender,
+
+        -- report context
+        e.report_date,
+        e.doctor,
+        e.facility,
+        e.extraction_confidence,
+
+        -- test result
+        r.test_name,
+        r.value,
+        r.value_numeric,
+        r.unit,
+        r.reference_range,
+        r.flag,
+
+        e.extracted_at
+    from extractions e
+    left join results r
+        on e.document_id = r.document_id
+)
+
+select * from joined
+  );
+[0m16:51:03.293677 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m16:51:03.294782 [debug] [Thread-1 (]: Using snowflake connection "model.healthcare_pipeline.dim_patients"
+[0m16:51:03.296038 [debug] [Thread-1 (]: On model.healthcare_pipeline.dim_patients: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "model.healthcare_pipeline.dim_patients"} */
+create dynamic table HEALTHCARE.staging_marts.dim_patients
+        target_lag = '30 seconds'
+        warehouse = COMPUTE_WH
+        as (
+            -- One row per patient per tenant.
+-- Deduplication key: patient_external_id when present, else patient_name.
+-- Latest extracted record wins.
+with extractions as (
+    select * from HEALTHCARE.staging_staging.stg_ocr_extractions
+    where patient_name is not null
+),
+
+ranked as (
+    select
+        *,
+        row_number() over (
+            partition by tenant_id,
+                         coalesce(nullif(trim(patient_external_id), ''), trim(patient_name))
+            order by extracted_at desc
+        ) as rn
+    from extractions
+),
+
+final as (
+    select
+        md5(tenant_id || '|' || coalesce(nullif(trim(patient_external_id), ''), trim(patient_name))) as patient_key,
+        tenant_id,
+        patient_name,
+        patient_external_id,
+        patient_dob,
+        patient_gender,
+        extracted_at                                    as last_seen_at
+    from ranked
+    where rn = 1
+)
+
+select * from final
+        )
+[0m16:51:03.296757 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m16:51:04.217223 [debug] [Thread-1 (]: Snowflake adapter: Snowflake query id: 01c5b3a9-000d-d7e2-0000-f7d1000597e2
+[0m16:51:04.218140 [debug] [Thread-1 (]: Snowflake adapter: Snowflake error: 002755 (22023): SQL compilation error: Invalid TARGET_LAG value '30 seconds'. Dynamic Tables do not support lag values under 60 second(s).
+[0m16:51:04.219064 [debug] [Thread-1 (]: Timing info for model.healthcare_pipeline.dim_patients (execute): 16:51:03.269067 => 16:51:04.218739
+[0m16:51:04.219705 [debug] [Thread-1 (]: On model.healthcare_pipeline.dim_patients: Close
+[0m16:51:04.377801 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:51:04.381982 [debug] [Thread-2 (]: Timing info for model.healthcare_pipeline.int_patient_documents (execute): 16:51:03.265903 => 16:51:04.381641
+[0m16:51:04.382647 [debug] [Thread-2 (]: On model.healthcare_pipeline.int_patient_documents: Close
+[0m16:51:04.555910 [debug] [Thread-1 (]: Database Error in model dim_patients (models/marts/dim_patients.sql)
+  002755 (22023): SQL compilation error: Invalid TARGET_LAG value '30 seconds'. Dynamic Tables do not support lag values under 60 second(s).
+  compiled Code at target/run/healthcare_pipeline/models/marts/dim_patients.sql
+[0m16:51:04.556444 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ea2ca681-9360-47c8-a60a-99685aefd060', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x12783ab40>]}
+[0m16:51:04.556949 [error] [Thread-1 (]: 8 of 19 ERROR creating sql dynamic_table model staging_marts.dim_patients ...... [[31mERROR[0m in 1.31s]
+[0m16:51:04.557423 [debug] [Thread-1 (]: Finished running node model.healthcare_pipeline.dim_patients
+[0m16:51:04.558308 [debug] [Thread-3 (]: Began running node test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9
+[0m16:51:04.558682 [debug] [Thread-4 (]: Began running node test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8
+[0m16:51:04.559007 [debug] [Thread-1 (]: Began running node test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330
+[0m16:51:04.559370 [info ] [Thread-3 (]: 10 of 19 SKIP test not_null_dim_patients_patient_key ........................... [[33mSKIP[0m]
+[0m16:51:04.559785 [info ] [Thread-4 (]: 11 of 19 SKIP test not_null_dim_patients_patient_name .......................... [[33mSKIP[0m]
+[0m16:51:04.560155 [info ] [Thread-1 (]: 12 of 19 SKIP test not_null_dim_patients_tenant_id ............................. [[33mSKIP[0m]
+[0m16:51:04.560514 [debug] [Thread-3 (]: Finished running node test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9
+[0m16:51:04.560855 [debug] [Thread-4 (]: Finished running node test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8
+[0m16:51:04.561174 [debug] [Thread-1 (]: Finished running node test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330
+[0m16:51:04.561509 [debug] [Thread-3 (]: Began running node test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a
+[0m16:51:04.561987 [info ] [Thread-3 (]: 13 of 19 SKIP test unique_dim_patients_patient_key ............................. [[33mSKIP[0m]
+[0m16:51:04.562313 [debug] [Thread-3 (]: Finished running node test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a
+[0m16:51:04.706562 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'ea2ca681-9360-47c8-a60a-99685aefd060', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x125e14830>]}
+[0m16:51:04.707530 [info ] [Thread-2 (]: 9 of 19 OK created sql view model staging_intermediate.int_patient_documents ... [[32mSUCCESS 1[0m in 1.46s]
+[0m16:51:04.708276 [debug] [Thread-2 (]: Finished running node model.healthcare_pipeline.int_patient_documents
+[0m16:51:04.709341 [debug] [Thread-4 (]: Began running node model.healthcare_pipeline.fct_lab_results
+[0m16:51:04.709997 [info ] [Thread-4 (]: 14 of 19 SKIP relation staging_marts.fct_lab_results ........................... [[33mSKIP[0m]
+[0m16:51:04.710611 [debug] [Thread-4 (]: Finished running node model.healthcare_pipeline.fct_lab_results
+[0m16:51:04.711522 [debug] [Thread-3 (]: Began running node test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f
+[0m16:51:04.712130 [debug] [Thread-2 (]: Began running node test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1
+[0m16:51:04.712696 [debug] [Thread-1 (]: Began running node test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6
+[0m16:51:04.713168 [info ] [Thread-3 (]: 15 of 19 SKIP test accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal  [[33mSKIP[0m]
+[0m16:51:04.713653 [debug] [Thread-4 (]: Began running node test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd
+[0m16:51:04.714123 [info ] [Thread-2 (]: 16 of 19 SKIP test not_null_fct_lab_results_document_id ........................ [[33mSKIP[0m]
+[0m16:51:04.714603 [info ] [Thread-1 (]: 17 of 19 SKIP test not_null_fct_lab_results_result_key ......................... [[33mSKIP[0m]
+[0m16:51:04.715100 [debug] [Thread-3 (]: Finished running node test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f
+[0m16:51:04.715562 [info ] [Thread-4 (]: 18 of 19 SKIP test not_null_fct_lab_results_test_name .......................... [[33mSKIP[0m]
+[0m16:51:04.716033 [debug] [Thread-2 (]: Finished running node test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1
+[0m16:51:04.716472 [debug] [Thread-1 (]: Finished running node test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6
+[0m16:51:04.716926 [debug] [Thread-3 (]: Began running node test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3
+[0m16:51:04.717432 [debug] [Thread-4 (]: Finished running node test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd
+[0m16:51:04.718051 [info ] [Thread-3 (]: 19 of 19 SKIP test unique_fct_lab_results_result_key ........................... [[33mSKIP[0m]
+[0m16:51:04.718617 [debug] [Thread-3 (]: Finished running node test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3
+[0m16:51:04.720507 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m16:51:04.720923 [debug] [MainThread]: Connection 'model.healthcare_pipeline.dim_patients' was properly closed.
+[0m16:51:04.721294 [debug] [MainThread]: Connection 'model.healthcare_pipeline.int_patient_documents' was properly closed.
+[0m16:51:04.721655 [debug] [MainThread]: Connection 'model.healthcare_pipeline.stg_ocr_extractions' was properly closed.
+[0m16:51:04.722006 [debug] [MainThread]: Connection 'test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10' was properly closed.
+[0m16:51:04.722460 [info ] [MainThread]: 
+[0m16:51:04.722838 [info ] [MainThread]: Finished running 14 tests, 3 view models, 2 dynamic_table models in 0 hours 0 minutes and 12.85 seconds (12.85s).
+[0m16:51:04.724437 [debug] [MainThread]: Command end result
+[0m16:51:04.734791 [info ] [MainThread]: 
+[0m16:51:04.735210 [info ] [MainThread]: [31mCompleted with 1 error and 0 warnings:[0m
+[0m16:51:04.735535 [info ] [MainThread]: 
+[0m16:51:04.735861 [error] [MainThread]:   Database Error in model dim_patients (models/marts/dim_patients.sql)
+  002755 (22023): SQL compilation error: Invalid TARGET_LAG value '30 seconds'. Dynamic Tables do not support lag values under 60 second(s).
+  compiled Code at target/run/healthcare_pipeline/models/marts/dim_patients.sql
+[0m16:51:04.736176 [info ] [MainThread]: 
+[0m16:51:04.736515 [info ] [MainThread]: Done. PASS=8 WARN=0 ERROR=1 SKIP=10 TOTAL=19
+[0m16:51:04.739440 [debug] [MainThread]: Resource report: {"command_name": "build", "command_wall_clock_time": 14.297576, "process_user_time": 3.828873, "process_kernel_time": 0.642109, "process_mem_max_rss": "229785600", "command_success": false, "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m16:51:04.739987 [debug] [MainThread]: Command `dbt build` failed at 16:51:04.739865 after 14.30 seconds
+[0m16:51:04.740381 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11269ccb0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x127824620>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106ae40b0>]}
+[0m16:51:04.740705 [debug] [MainThread]: Flushing usage events
+[0m16:52:18.143831 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1073605c0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1073ca420>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1073c9f10>]}
+
+
+============================== 16:52:18.147225 | 35c33f6e-2cb1-4a28-88f5-b7641fb2aa77 ==============================
+[0m16:52:18.147225 [info ] [MainThread]: Running with dbt=1.7.19
+[0m16:52:18.147627 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/adityasalabh/Desktop/Projects/healthcare-platform/healthcare-platform/healthcare-ai-platform-pipeline/dbt', 'debug': 'False', 'warn_error': 'None', 'log_path': '/Users/adityasalabh/Desktop/Projects/healthcare-platform/healthcare-platform/healthcare-ai-platform-pipeline/dbt/logs', 'version_check': 'True', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'invocation_command': 'dbt build', 'introspect': 'True', 'static_parser': 'True', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m16:52:18.762178 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '35c33f6e-2cb1-4a28-88f5-b7641fb2aa77', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107362ae0>]}
+[0m16:52:18.806164 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '35c33f6e-2cb1-4a28-88f5-b7641fb2aa77', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10704b020>]}
+[0m16:52:18.806976 [info ] [MainThread]: Registered adapter: snowflake=1.7.5
+[0m16:52:18.816532 [debug] [MainThread]: checksum: a8d43cdff37d0f32d7fbe4c5c25bea4bb6c86e162f8ce8fdb1a38cdcf7495431, vars: {}, profile: , target: , version: 1.7.19
+[0m16:52:18.824600 [info ] [MainThread]: Unable to do partial parsing because a project config has changed
+[0m16:52:18.825012 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': '35c33f6e-2cb1-4a28-88f5-b7641fb2aa77', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e07a600>]}
+[0m16:52:19.530037 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '35c33f6e-2cb1-4a28-88f5-b7641fb2aa77', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e328290>]}
+[0m16:52:19.540345 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '35c33f6e-2cb1-4a28-88f5-b7641fb2aa77', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e4dfa40>]}
+[0m16:52:19.540722 [info ] [MainThread]: Found 5 models, 14 tests, 3 sources, 0 exposures, 0 metrics, 431 macros, 0 groups, 0 semantic models
+[0m16:52:19.542082 [info ] [MainThread]: 
+[0m16:52:19.542582 [debug] [MainThread]: Acquiring new snowflake connection 'master'
+[0m16:52:19.543315 [debug] [ThreadPool]: Acquiring new snowflake connection 'list_HEALTHCARE'
+[0m16:52:19.543790 [debug] [ThreadPool]: Acquiring new snowflake connection 'list_HEALTHCARE'
+[0m16:52:19.549591 [debug] [ThreadPool]: Acquiring new snowflake connection 'list_HEALTHCARE'
+[0m16:52:19.550971 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE"
+[0m16:52:19.552342 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE"
+[0m16:52:19.553447 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE"
+[0m16:52:19.553689 [debug] [ThreadPool]: On list_HEALTHCARE: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE"} */
+show terse schemas in database HEALTHCARE
+    limit 10000
+[0m16:52:19.553927 [debug] [ThreadPool]: On list_HEALTHCARE: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE"} */
+show terse schemas in database HEALTHCARE
+    limit 10000
+[0m16:52:19.554143 [debug] [ThreadPool]: On list_HEALTHCARE: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE"} */
+show terse schemas in database HEALTHCARE
+    limit 10000
+[0m16:52:19.554349 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:52:19.554550 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:52:19.554748 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:52:21.884299 [debug] [ThreadPool]: SQL status: SUCCESS 6 in 2.0 seconds
+[0m16:52:21.885876 [debug] [ThreadPool]: SQL status: SUCCESS 6 in 2.0 seconds
+[0m16:52:21.890485 [debug] [ThreadPool]: On list_HEALTHCARE: Close
+[0m16:52:21.892239 [debug] [ThreadPool]: On list_HEALTHCARE: Close
+[0m16:52:21.920279 [debug] [ThreadPool]: SQL status: SUCCESS 6 in 2.0 seconds
+[0m16:52:21.921822 [debug] [ThreadPool]: On list_HEALTHCARE: Close
+[0m16:52:22.282052 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_HEALTHCARE, now list_HEALTHCARE_staging_marts)
+[0m16:52:22.283232 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_HEALTHCARE, now list_HEALTHCARE_staging_intermediate)
+[0m16:52:22.290681 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_HEALTHCARE, now list_HEALTHCARE_staging_staging)
+[0m16:52:22.295796 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE_staging_marts"
+[0m16:52:22.298272 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE_staging_intermediate"
+[0m16:52:22.300591 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE_staging_staging"
+[0m16:52:22.301224 [debug] [ThreadPool]: On list_HEALTHCARE_staging_marts: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE_staging_marts"} */
+show objects in HEALTHCARE.staging_marts limit 10000
+[0m16:52:22.301794 [debug] [ThreadPool]: On list_HEALTHCARE_staging_intermediate: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE_staging_intermediate"} */
+show objects in HEALTHCARE.staging_intermediate limit 10000
+[0m16:52:22.302267 [debug] [ThreadPool]: On list_HEALTHCARE_staging_staging: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE_staging_staging"} */
+show objects in HEALTHCARE.staging_staging limit 10000
+[0m16:52:22.302730 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m16:52:22.303718 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m16:52:22.304260 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m16:52:23.590512 [debug] [ThreadPool]: SQL status: SUCCESS 2 in 1.0 seconds
+[0m16:52:23.594145 [debug] [ThreadPool]: On list_HEALTHCARE_staging_staging: Close
+[0m16:52:23.600708 [debug] [ThreadPool]: SQL status: SUCCESS 0 in 1.0 seconds
+[0m16:52:23.602951 [debug] [ThreadPool]: On list_HEALTHCARE_staging_marts: Close
+[0m16:52:23.635269 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:52:23.637929 [debug] [ThreadPool]: On list_HEALTHCARE_staging_intermediate: Close
+[0m16:52:23.940390 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '35c33f6e-2cb1-4a28-88f5-b7641fb2aa77', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e6ed190>]}
+[0m16:52:23.941513 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m16:52:23.942055 [info ] [MainThread]: 
+[0m16:52:23.943616 [debug] [Thread-1 (]: Began running node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f
+[0m16:52:23.944247 [debug] [Thread-2 (]: Began running node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7
+[0m16:52:23.944849 [info ] [Thread-1 (]: 1 of 19 START test source_not_null_raw_ocr_extractions_document_id ............. [RUN]
+[0m16:52:23.945381 [debug] [Thread-3 (]: Began running node test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8
+[0m16:52:23.945909 [debug] [Thread-4 (]: Began running node test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10
+[0m16:52:23.946560 [info ] [Thread-2 (]: 2 of 19 START test source_not_null_raw_ocr_extractions_tenant_id ............... [RUN]
+[0m16:52:23.947745 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_HEALTHCARE_staging_marts, now test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f)
+[0m16:52:23.948364 [info ] [Thread-3 (]: 3 of 19 START test source_not_null_raw_ocr_results_document_id ................. [RUN]
+[0m16:52:23.949338 [info ] [Thread-4 (]: 4 of 19 START test source_not_null_raw_ocr_results_test_name ................... [RUN]
+[0m16:52:23.950409 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly list_HEALTHCARE_staging_intermediate, now test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7)
+[0m16:52:23.951152 [debug] [Thread-1 (]: Began compiling node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f
+[0m16:52:23.952170 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly list_HEALTHCARE_staging_staging, now test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8)
+[0m16:52:23.953104 [debug] [Thread-4 (]: Acquiring new snowflake connection 'test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10'
+[0m16:52:23.953660 [debug] [Thread-2 (]: Began compiling node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7
+[0m16:52:23.967891 [debug] [Thread-1 (]: Writing injected SQL for node "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f"
+[0m16:52:23.968390 [debug] [Thread-3 (]: Began compiling node test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8
+[0m16:52:23.968839 [debug] [Thread-4 (]: Began compiling node test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10
+[0m16:52:23.972533 [debug] [Thread-2 (]: Writing injected SQL for node "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7"
+[0m16:52:23.976155 [debug] [Thread-3 (]: Writing injected SQL for node "test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8"
+[0m16:52:23.979378 [debug] [Thread-4 (]: Writing injected SQL for node "test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10"
+[0m16:52:23.979972 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f (compile): 16:52:23.954029 => 16:52:23.979768
+[0m16:52:23.980509 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7 (compile): 16:52:23.969136 => 16:52:23.980328
+[0m16:52:23.980939 [debug] [Thread-1 (]: Began executing node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f
+[0m16:52:23.981383 [debug] [Thread-4 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10 (compile): 16:52:23.976497 => 16:52:23.981206
+[0m16:52:23.981745 [debug] [Thread-3 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8 (compile): 16:52:23.972934 => 16:52:23.981583
+[0m16:52:23.982062 [debug] [Thread-2 (]: Began executing node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7
+[0m16:52:23.995266 [debug] [Thread-1 (]: Writing runtime sql for node "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f"
+[0m16:52:23.995628 [debug] [Thread-4 (]: Began executing node test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10
+[0m16:52:23.995935 [debug] [Thread-3 (]: Began executing node test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8
+[0m16:52:23.998372 [debug] [Thread-2 (]: Writing runtime sql for node "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7"
+[0m16:52:24.000171 [debug] [Thread-4 (]: Writing runtime sql for node "test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10"
+[0m16:52:24.001873 [debug] [Thread-3 (]: Writing runtime sql for node "test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8"
+[0m16:52:24.002415 [debug] [Thread-1 (]: Using snowflake connection "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f"
+[0m16:52:24.002884 [debug] [Thread-1 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select document_id
+from HEALTHCARE.RAW.ocr_extractions
+where document_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:52:24.003387 [debug] [Thread-4 (]: Using snowflake connection "test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10"
+[0m16:52:24.003936 [debug] [Thread-2 (]: Using snowflake connection "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7"
+[0m16:52:24.004213 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m16:52:24.004654 [debug] [Thread-3 (]: Using snowflake connection "test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8"
+[0m16:52:24.004928 [debug] [Thread-4 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select test_name
+from HEALTHCARE.RAW.ocr_results
+where test_name is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:52:24.005224 [debug] [Thread-2 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select tenant_id
+from HEALTHCARE.RAW.ocr_extractions
+where tenant_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:52:24.005573 [debug] [Thread-3 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select document_id
+from HEALTHCARE.RAW.ocr_results
+where document_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:52:24.006140 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m16:52:24.006781 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m16:52:24.007234 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m16:52:25.043292 [debug] [Thread-1 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:52:25.057969 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f (execute): 16:52:23.982285 => 16:52:25.057383
+[0m16:52:25.058905 [debug] [Thread-1 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f: Close
+[0m16:52:25.062450 [debug] [Thread-4 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:52:25.066270 [debug] [Thread-4 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10 (execute): 16:52:23.998645 => 16:52:25.065873
+[0m16:52:25.067573 [debug] [Thread-3 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:52:25.068740 [debug] [Thread-4 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10: Close
+[0m16:52:25.071329 [debug] [Thread-3 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8 (execute): 16:52:24.000418 => 16:52:25.070989
+[0m16:52:25.073175 [debug] [Thread-3 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8: Close
+[0m16:52:25.076952 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:52:25.079348 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7 (execute): 16:52:23.996136 => 16:52:25.079039
+[0m16:52:25.080315 [debug] [Thread-2 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7: Close
+[0m16:52:25.334731 [info ] [Thread-1 (]: 1 of 19 PASS source_not_null_raw_ocr_extractions_document_id ................... [[32mPASS[0m in 1.39s]
+[0m16:52:25.336054 [debug] [Thread-1 (]: Finished running node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f
+[0m16:52:25.336885 [debug] [Thread-1 (]: Began running node test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3
+[0m16:52:25.337674 [info ] [Thread-1 (]: 5 of 19 START test source_unique_raw_ocr_extractions_document_id ............... [RUN]
+[0m16:52:25.338748 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f, now test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3)
+[0m16:52:25.339384 [debug] [Thread-1 (]: Began compiling node test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3
+[0m16:52:25.348490 [debug] [Thread-1 (]: Writing injected SQL for node "test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3"
+[0m16:52:25.350728 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3 (compile): 16:52:25.339769 => 16:52:25.350225
+[0m16:52:25.351353 [debug] [Thread-1 (]: Began executing node test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3
+[0m16:52:25.354600 [debug] [Thread-1 (]: Writing runtime sql for node "test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3"
+[0m16:52:25.355644 [info ] [Thread-4 (]: 4 of 19 PASS source_not_null_raw_ocr_results_test_name ......................... [[32mPASS[0m in 1.40s]
+[0m16:52:25.357276 [info ] [Thread-2 (]: 2 of 19 PASS source_not_null_raw_ocr_extractions_tenant_id ..................... [[32mPASS[0m in 1.41s]
+[0m16:52:25.358112 [debug] [Thread-4 (]: Finished running node test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10
+[0m16:52:25.359213 [debug] [Thread-1 (]: Using snowflake connection "test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3"
+[0m16:52:25.360123 [info ] [Thread-3 (]: 3 of 19 PASS source_not_null_raw_ocr_results_document_id ....................... [[32mPASS[0m in 1.41s]
+[0m16:52:25.360791 [debug] [Thread-2 (]: Finished running node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7
+[0m16:52:25.361408 [debug] [Thread-1 (]: On test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+select
+    document_id as unique_field,
+    count(*) as n_records
+
+from HEALTHCARE.RAW.ocr_extractions
+where document_id is not null
+group by document_id
+having count(*) > 1
+
+
+
+      
+    ) dbt_internal_test
+[0m16:52:25.361990 [debug] [Thread-3 (]: Finished running node test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8
+[0m16:52:25.362595 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m16:52:25.363241 [debug] [Thread-4 (]: Began running node model.healthcare_pipeline.stg_ocr_results
+[0m16:52:25.363889 [info ] [Thread-4 (]: 6 of 19 START sql view model staging_staging.stg_ocr_results ................... [RUN]
+[0m16:52:25.365174 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10, now model.healthcare_pipeline.stg_ocr_results)
+[0m16:52:25.366186 [debug] [Thread-4 (]: Began compiling node model.healthcare_pipeline.stg_ocr_results
+[0m16:52:25.370589 [debug] [Thread-4 (]: Writing injected SQL for node "model.healthcare_pipeline.stg_ocr_results"
+[0m16:52:25.374867 [debug] [Thread-4 (]: Timing info for model.healthcare_pipeline.stg_ocr_results (compile): 16:52:25.367314 => 16:52:25.374642
+[0m16:52:25.375887 [debug] [Thread-4 (]: Began executing node model.healthcare_pipeline.stg_ocr_results
+[0m16:52:25.395214 [debug] [Thread-4 (]: Writing runtime sql for node "model.healthcare_pipeline.stg_ocr_results"
+[0m16:52:25.399100 [debug] [Thread-4 (]: Using snowflake connection "model.healthcare_pipeline.stg_ocr_results"
+[0m16:52:25.400153 [debug] [Thread-4 (]: On model.healthcare_pipeline.stg_ocr_results: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "model.healthcare_pipeline.stg_ocr_results"} */
+create or replace   view HEALTHCARE.staging_staging.stg_ocr_results
+  
+   as (
+    with source as (
+    select * from HEALTHCARE.RAW.ocr_results
+),
+
+cleaned as (
+    select
+        document_id,
+        tenant_id,
+
+        -- normalise test name and unit
+        trim(lower(test_name))                          as test_name,
+        trim(value)                                     as value,
+        try_to_number(value)                            as value_numeric,   -- null when non-numeric (e.g. "Positive")
+        trim(lower(unit))                               as unit,
+        trim(reference_range)                           as reference_range,
+        lower(trim(flag))                               as flag,            -- critical | high | low | borderline | normal
+
+        extracted_at::timestamp_tz                      as extracted_at
+    from source
+    where document_id is not null
+      and test_name    is not null
+)
+
+select * from cleaned
+  );
+[0m16:52:25.401156 [debug] [Thread-4 (]: Opening a new connection, currently in state closed
+[0m16:52:26.593405 [debug] [Thread-1 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:52:26.598345 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3 (execute): 16:52:25.351713 => 16:52:26.597864
+[0m16:52:26.599084 [debug] [Thread-1 (]: On test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3: Close
+[0m16:52:26.686853 [debug] [Thread-4 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:52:26.711644 [debug] [Thread-4 (]: Timing info for model.healthcare_pipeline.stg_ocr_results (execute): 16:52:25.376871 => 16:52:26.711331
+[0m16:52:26.712311 [debug] [Thread-4 (]: On model.healthcare_pipeline.stg_ocr_results: Close
+[0m16:52:26.881832 [info ] [Thread-1 (]: 5 of 19 PASS source_unique_raw_ocr_extractions_document_id ..................... [[32mPASS[0m in 1.54s]
+[0m16:52:26.883610 [debug] [Thread-1 (]: Finished running node test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3
+[0m16:52:26.887515 [debug] [Thread-3 (]: Began running node model.healthcare_pipeline.stg_ocr_extractions
+[0m16:52:26.889351 [info ] [Thread-3 (]: 7 of 19 START sql view model staging_staging.stg_ocr_extractions ............... [RUN]
+[0m16:52:26.890493 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8, now model.healthcare_pipeline.stg_ocr_extractions)
+[0m16:52:26.891062 [debug] [Thread-3 (]: Began compiling node model.healthcare_pipeline.stg_ocr_extractions
+[0m16:52:26.894825 [debug] [Thread-3 (]: Writing injected SQL for node "model.healthcare_pipeline.stg_ocr_extractions"
+[0m16:52:26.896060 [debug] [Thread-3 (]: Timing info for model.healthcare_pipeline.stg_ocr_extractions (compile): 16:52:26.891374 => 16:52:26.895782
+[0m16:52:26.896559 [debug] [Thread-3 (]: Began executing node model.healthcare_pipeline.stg_ocr_extractions
+[0m16:52:26.899926 [debug] [Thread-3 (]: Writing runtime sql for node "model.healthcare_pipeline.stg_ocr_extractions"
+[0m16:52:26.901617 [debug] [Thread-3 (]: Using snowflake connection "model.healthcare_pipeline.stg_ocr_extractions"
+[0m16:52:26.902163 [debug] [Thread-3 (]: On model.healthcare_pipeline.stg_ocr_extractions: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "model.healthcare_pipeline.stg_ocr_extractions"} */
+create or replace   view HEALTHCARE.staging_staging.stg_ocr_extractions
+  
+   as (
+    with source as (
+    select * from HEALTHCARE.RAW.ocr_extractions
+),
+
+cleaned as (
+    select
+        document_id,
+        tenant_id,
+        report_type,
+
+        -- patient demographics — normalise whitespace and casing
+        trim(patient_name)                              as patient_name,
+        trim(patient_external_id)                       as patient_external_id,
+        try_to_date(patient_dob,    'YYYY-MM-DD')       as patient_dob,
+        lower(trim(patient_gender))                     as patient_gender,
+
+        -- report metadata
+        try_to_date(report_date, 'YYYY-MM-DD')          as report_date,
+        trim(doctor)                                    as doctor,
+        trim(facility)                                  as facility,
+
+        -- quality signals
+        extraction_status,
+        extraction_confidence::float                    as extraction_confidence,
+        extracted_at::timestamp_tz                      as extracted_at
+    from source
+    where document_id is not null
+)
+
+select * from cleaned
+  );
+[0m16:52:26.902641 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m16:52:26.994266 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '35c33f6e-2cb1-4a28-88f5-b7641fb2aa77', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e4d7ad0>]}
+[0m16:52:26.994950 [info ] [Thread-4 (]: 6 of 19 OK created sql view model staging_staging.stg_ocr_results .............. [[32mSUCCESS 1[0m in 1.63s]
+[0m16:52:26.995524 [debug] [Thread-4 (]: Finished running node model.healthcare_pipeline.stg_ocr_results
+[0m16:52:27.986545 [debug] [Thread-3 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:52:27.993702 [debug] [Thread-3 (]: Timing info for model.healthcare_pipeline.stg_ocr_extractions (execute): 16:52:26.896846 => 16:52:27.993234
+[0m16:52:27.994721 [debug] [Thread-3 (]: On model.healthcare_pipeline.stg_ocr_extractions: Close
+[0m16:52:28.352155 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '35c33f6e-2cb1-4a28-88f5-b7641fb2aa77', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10dfe72f0>]}
+[0m16:52:28.353763 [info ] [Thread-3 (]: 7 of 19 OK created sql view model staging_staging.stg_ocr_extractions .......... [[32mSUCCESS 1[0m in 1.46s]
+[0m16:52:28.355036 [debug] [Thread-3 (]: Finished running node model.healthcare_pipeline.stg_ocr_extractions
+[0m16:52:28.357063 [debug] [Thread-1 (]: Began running node model.healthcare_pipeline.dim_patients
+[0m16:52:28.357930 [debug] [Thread-2 (]: Began running node model.healthcare_pipeline.int_patient_documents
+[0m16:52:28.358781 [info ] [Thread-1 (]: 8 of 19 START sql dynamic_table model staging_marts.dim_patients ............... [RUN]
+[0m16:52:28.359718 [info ] [Thread-2 (]: 9 of 19 START sql view model staging_intermediate.int_patient_documents ........ [RUN]
+[0m16:52:28.360993 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3, now model.healthcare_pipeline.dim_patients)
+[0m16:52:28.362058 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7, now model.healthcare_pipeline.int_patient_documents)
+[0m16:52:28.362680 [debug] [Thread-1 (]: Began compiling node model.healthcare_pipeline.dim_patients
+[0m16:52:28.363270 [debug] [Thread-2 (]: Began compiling node model.healthcare_pipeline.int_patient_documents
+[0m16:52:28.367768 [debug] [Thread-1 (]: Writing injected SQL for node "model.healthcare_pipeline.dim_patients"
+[0m16:52:28.371403 [debug] [Thread-2 (]: Writing injected SQL for node "model.healthcare_pipeline.int_patient_documents"
+[0m16:52:28.372611 [debug] [Thread-1 (]: Timing info for model.healthcare_pipeline.dim_patients (compile): 16:52:28.363656 => 16:52:28.372330
+[0m16:52:28.373223 [debug] [Thread-2 (]: Timing info for model.healthcare_pipeline.int_patient_documents (compile): 16:52:28.368198 => 16:52:28.372952
+[0m16:52:28.373749 [debug] [Thread-1 (]: Began executing node model.healthcare_pipeline.dim_patients
+[0m16:52:28.374249 [debug] [Thread-2 (]: Began executing node model.healthcare_pipeline.int_patient_documents
+[0m16:52:28.393370 [debug] [Thread-1 (]: Applying CREATE to: HEALTHCARE.staging_marts.dim_patients
+[0m16:52:28.396410 [debug] [Thread-2 (]: Writing runtime sql for node "model.healthcare_pipeline.int_patient_documents"
+[0m16:52:28.402107 [debug] [Thread-1 (]: Writing runtime sql for node "model.healthcare_pipeline.dim_patients"
+[0m16:52:28.403521 [debug] [Thread-2 (]: Using snowflake connection "model.healthcare_pipeline.int_patient_documents"
+[0m16:52:28.404569 [debug] [Thread-1 (]: Using snowflake connection "model.healthcare_pipeline.dim_patients"
+[0m16:52:28.404986 [debug] [Thread-2 (]: On model.healthcare_pipeline.int_patient_documents: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "model.healthcare_pipeline.int_patient_documents"} */
+create or replace   view HEALTHCARE.staging_intermediate.int_patient_documents
+  
+   as (
+    -- Join document-level metadata with every test result it contains.
+-- One row per (document, test_result) pair.
+with extractions as (
+    select * from HEALTHCARE.staging_staging.stg_ocr_extractions
+),
+
+results as (
+    select * from HEALTHCARE.staging_staging.stg_ocr_results
+),
+
+joined as (
+    select
+        -- document identity
+        e.document_id,
+        e.tenant_id,
+        e.report_type,
+
+        -- patient context
+        e.patient_name,
+        e.patient_external_id,
+        e.patient_dob,
+        e.patient_gender,
+
+        -- report context
+        e.report_date,
+        e.doctor,
+        e.facility,
+        e.extraction_confidence,
+
+        -- test result
+        r.test_name,
+        r.value,
+        r.value_numeric,
+        r.unit,
+        r.reference_range,
+        r.flag,
+
+        e.extracted_at
+    from extractions e
+    left join results r
+        on e.document_id = r.document_id
+)
+
+select * from joined
+  );
+[0m16:52:28.405433 [debug] [Thread-1 (]: On model.healthcare_pipeline.dim_patients: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "model.healthcare_pipeline.dim_patients"} */
+create dynamic table HEALTHCARE.staging_marts.dim_patients
+        target_lag = '60 seconds'
+        warehouse = COMPUTE_WH
+        as (
+            -- One row per patient per tenant.
+-- Deduplication key: patient_external_id when present, else patient_name.
+-- Latest extracted record wins.
+with extractions as (
+    select * from HEALTHCARE.staging_staging.stg_ocr_extractions
+    where patient_name is not null
+),
+
+ranked as (
+    select
+        *,
+        row_number() over (
+            partition by tenant_id,
+                         coalesce(nullif(trim(patient_external_id), ''), trim(patient_name))
+            order by extracted_at desc
+        ) as rn
+    from extractions
+),
+
+final as (
+    select
+        md5(tenant_id || '|' || coalesce(nullif(trim(patient_external_id), ''), trim(patient_name))) as patient_key,
+        tenant_id,
+        patient_name,
+        patient_external_id,
+        patient_dob,
+        patient_gender,
+        extracted_at                                    as last_seen_at
+    from ranked
+    where rn = 1
+)
+
+select * from final
+        )
+[0m16:52:28.405856 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m16:52:28.406256 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m16:52:30.177117 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 2.0 seconds
+[0m16:52:30.184443 [debug] [Thread-2 (]: Timing info for model.healthcare_pipeline.int_patient_documents (execute): 16:52:28.393777 => 16:52:30.184090
+[0m16:52:30.185331 [debug] [Thread-2 (]: On model.healthcare_pipeline.int_patient_documents: Close
+[0m16:52:30.188890 [debug] [Thread-1 (]: Snowflake adapter: Snowflake query id: 01c5b3aa-000d-d7e3-0000-f7d10005b86e
+[0m16:52:30.189898 [debug] [Thread-1 (]: Snowflake adapter: Snowflake error: 002742 (01000): SQL compilation error: Failed to refresh dynamic table with refresh_trigger INITIAL at data_timestamp 1784028150001 because of the error: SQL compilation error: Target table failed to refresh: Dynamic Table 'HEALTHCARE.STAGING_MARTS.DIM_PATIENTS' could not be refreshed because warehouse 'COMPUTE_WH' is missing.
+[0m16:52:30.190937 [debug] [Thread-1 (]: Timing info for model.healthcare_pipeline.dim_patients (execute): 16:52:28.374572 => 16:52:30.190632
+[0m16:52:30.191634 [debug] [Thread-1 (]: On model.healthcare_pipeline.dim_patients: Close
+[0m16:52:30.549365 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '35c33f6e-2cb1-4a28-88f5-b7641fb2aa77', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e57f830>]}
+[0m16:52:30.550955 [info ] [Thread-2 (]: 9 of 19 OK created sql view model staging_intermediate.int_patient_documents ... [[32mSUCCESS 1[0m in 2.19s]
+[0m16:52:30.552170 [debug] [Thread-2 (]: Finished running node model.healthcare_pipeline.int_patient_documents
+[0m16:52:30.582485 [debug] [Thread-1 (]: Database Error in model dim_patients (models/marts/dim_patients.sql)
+  002742 (01000): SQL compilation error: Failed to refresh dynamic table with refresh_trigger INITIAL at data_timestamp 1784028150001 because of the error: SQL compilation error: Target table failed to refresh: Dynamic Table 'HEALTHCARE.STAGING_MARTS.DIM_PATIENTS' could not be refreshed because warehouse 'COMPUTE_WH' is missing.
+  compiled Code at target/run/healthcare_pipeline/models/marts/dim_patients.sql
+[0m16:52:30.583521 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '35c33f6e-2cb1-4a28-88f5-b7641fb2aa77', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x116824f80>]}
+[0m16:52:30.584510 [error] [Thread-1 (]: 8 of 19 ERROR creating sql dynamic_table model staging_marts.dim_patients ...... [[31mERROR[0m in 2.22s]
+[0m16:52:30.585444 [debug] [Thread-1 (]: Finished running node model.healthcare_pipeline.dim_patients
+[0m16:52:30.587297 [debug] [Thread-3 (]: Began running node test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9
+[0m16:52:30.588058 [debug] [Thread-4 (]: Began running node test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8
+[0m16:52:30.588677 [info ] [Thread-3 (]: 10 of 19 SKIP test not_null_dim_patients_patient_key ........................... [[33mSKIP[0m]
+[0m16:52:30.589338 [debug] [Thread-2 (]: Began running node test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330
+[0m16:52:30.590055 [debug] [Thread-1 (]: Began running node test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a
+[0m16:52:30.590821 [info ] [Thread-4 (]: 11 of 19 SKIP test not_null_dim_patients_patient_name .......................... [[33mSKIP[0m]
+[0m16:52:30.591578 [debug] [Thread-3 (]: Finished running node test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9
+[0m16:52:30.592225 [info ] [Thread-2 (]: 12 of 19 SKIP test not_null_dim_patients_tenant_id ............................. [[33mSKIP[0m]
+[0m16:52:30.592874 [info ] [Thread-1 (]: 13 of 19 SKIP test unique_dim_patients_patient_key ............................. [[33mSKIP[0m]
+[0m16:52:30.593464 [debug] [Thread-4 (]: Finished running node test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8
+[0m16:52:30.594103 [debug] [Thread-2 (]: Finished running node test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330
+[0m16:52:30.594633 [debug] [Thread-1 (]: Finished running node test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a
+[0m16:52:30.595509 [debug] [Thread-3 (]: Began running node model.healthcare_pipeline.fct_lab_results
+[0m16:52:30.596163 [info ] [Thread-3 (]: 14 of 19 SKIP relation staging_marts.fct_lab_results ........................... [[33mSKIP[0m]
+[0m16:52:30.596721 [debug] [Thread-3 (]: Finished running node model.healthcare_pipeline.fct_lab_results
+[0m16:52:30.597509 [debug] [Thread-2 (]: Began running node test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f
+[0m16:52:30.598066 [debug] [Thread-1 (]: Began running node test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1
+[0m16:52:30.598570 [info ] [Thread-2 (]: 15 of 19 SKIP test accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal  [[33mSKIP[0m]
+[0m16:52:30.599094 [debug] [Thread-4 (]: Began running node test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6
+[0m16:52:30.599645 [debug] [Thread-3 (]: Began running node test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd
+[0m16:52:30.600167 [info ] [Thread-1 (]: 16 of 19 SKIP test not_null_fct_lab_results_document_id ........................ [[33mSKIP[0m]
+[0m16:52:30.600716 [debug] [Thread-2 (]: Finished running node test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f
+[0m16:52:30.601235 [info ] [Thread-4 (]: 17 of 19 SKIP test not_null_fct_lab_results_result_key ......................... [[33mSKIP[0m]
+[0m16:52:30.601769 [info ] [Thread-3 (]: 18 of 19 SKIP test not_null_fct_lab_results_test_name .......................... [[33mSKIP[0m]
+[0m16:52:30.602283 [debug] [Thread-1 (]: Finished running node test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1
+[0m16:52:30.602827 [debug] [Thread-2 (]: Began running node test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3
+[0m16:52:30.603342 [debug] [Thread-4 (]: Finished running node test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6
+[0m16:52:30.603809 [debug] [Thread-3 (]: Finished running node test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd
+[0m16:52:30.604683 [info ] [Thread-2 (]: 19 of 19 SKIP test unique_fct_lab_results_result_key ........................... [[33mSKIP[0m]
+[0m16:52:30.605328 [debug] [Thread-2 (]: Finished running node test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3
+[0m16:52:30.607145 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m16:52:30.607551 [debug] [MainThread]: Connection 'model.healthcare_pipeline.dim_patients' was properly closed.
+[0m16:52:30.607932 [debug] [MainThread]: Connection 'model.healthcare_pipeline.int_patient_documents' was properly closed.
+[0m16:52:30.608292 [debug] [MainThread]: Connection 'model.healthcare_pipeline.stg_ocr_extractions' was properly closed.
+[0m16:52:30.608645 [debug] [MainThread]: Connection 'model.healthcare_pipeline.stg_ocr_results' was properly closed.
+[0m16:52:30.609103 [info ] [MainThread]: 
+[0m16:52:30.609544 [info ] [MainThread]: Finished running 14 tests, 3 view models, 2 dynamic_table models in 0 hours 0 minutes and 11.07 seconds (11.07s).
+[0m16:52:30.611405 [debug] [MainThread]: Command end result
+[0m16:52:30.626097 [info ] [MainThread]: 
+[0m16:52:30.626597 [info ] [MainThread]: [31mCompleted with 1 error and 0 warnings:[0m
+[0m16:52:30.626927 [info ] [MainThread]: 
+[0m16:52:30.627290 [error] [MainThread]:   Database Error in model dim_patients (models/marts/dim_patients.sql)
+  002742 (01000): SQL compilation error: Failed to refresh dynamic table with refresh_trigger INITIAL at data_timestamp 1784028150001 because of the error: SQL compilation error: Target table failed to refresh: Dynamic Table 'HEALTHCARE.STAGING_MARTS.DIM_PATIENTS' could not be refreshed because warehouse 'COMPUTE_WH' is missing.
+  compiled Code at target/run/healthcare_pipeline/models/marts/dim_patients.sql
+[0m16:52:30.627626 [info ] [MainThread]: 
+[0m16:52:30.627987 [info ] [MainThread]: Done. PASS=8 WARN=0 ERROR=1 SKIP=10 TOTAL=19
+[0m16:52:30.631362 [debug] [MainThread]: Resource report: {"command_name": "build", "command_wall_clock_time": 12.528292, "process_user_time": 3.699634, "process_kernel_time": 0.617017, "process_mem_max_rss": "234749952", "command_success": false, "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m16:52:30.631936 [debug] [MainThread]: Command `dbt build` failed at 16:52:30.631826 after 12.53 seconds
+[0m16:52:30.632443 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107240b30>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107260bc0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e4df650>]}
+[0m16:52:30.632782 [debug] [MainThread]: Flushing usage events
+[0m16:53:54.338230 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x112fb4590>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11301e690>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11301e1b0>]}
+
+
+============================== 16:53:54.342096 | 44347d1b-a499-4a7d-b4ad-d404b5bf5bfb ==============================
+[0m16:53:54.342096 [info ] [MainThread]: Running with dbt=1.7.19
+[0m16:53:54.342525 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/adityasalabh/Desktop/Projects/healthcare-platform/healthcare-platform/healthcare-ai-platform-pipeline/dbt', 'fail_fast': 'False', 'warn_error': 'None', 'log_path': '/Users/adityasalabh/Desktop/Projects/healthcare-platform/healthcare-platform/healthcare-ai-platform-pipeline/dbt/logs', 'debug': 'False', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'invocation_command': 'dbt build', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m16:53:54.957811 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '44347d1b-a499-4a7d-b4ad-d404b5bf5bfb', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x130132ae0>]}
+[0m16:53:55.002005 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '44347d1b-a499-4a7d-b4ad-d404b5bf5bfb', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x113048740>]}
+[0m16:53:55.002713 [info ] [MainThread]: Registered adapter: snowflake=1.7.5
+[0m16:53:55.012504 [debug] [MainThread]: checksum: a8d43cdff37d0f32d7fbe4c5c25bea4bb6c86e162f8ce8fdb1a38cdcf7495431, vars: {}, profile: , target: , version: 1.7.19
+[0m16:53:55.049307 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m16:53:55.049646 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m16:53:55.053057 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '44347d1b-a499-4a7d-b4ad-d404b5bf5bfb', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x133c41250>]}
+[0m16:53:55.061838 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '44347d1b-a499-4a7d-b4ad-d404b5bf5bfb', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x133ea7e90>]}
+[0m16:53:55.062223 [info ] [MainThread]: Found 5 models, 14 tests, 3 sources, 0 exposures, 0 metrics, 431 macros, 0 groups, 0 semantic models
+[0m16:53:55.063632 [info ] [MainThread]: 
+[0m16:53:55.064143 [debug] [MainThread]: Acquiring new snowflake connection 'master'
+[0m16:53:55.064964 [debug] [ThreadPool]: Acquiring new snowflake connection 'list_HEALTHCARE'
+[0m16:53:55.072001 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE"
+[0m16:53:55.072446 [debug] [ThreadPool]: Acquiring new snowflake connection 'list_HEALTHCARE'
+[0m16:53:55.072665 [debug] [ThreadPool]: On list_HEALTHCARE: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE"} */
+show terse schemas in database HEALTHCARE
+    limit 10000
+[0m16:53:55.073118 [debug] [ThreadPool]: Acquiring new snowflake connection 'list_HEALTHCARE'
+[0m16:53:55.074403 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE"
+[0m16:53:55.074675 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:53:55.075832 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE"
+[0m16:53:55.076071 [debug] [ThreadPool]: On list_HEALTHCARE: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE"} */
+show terse schemas in database HEALTHCARE
+    limit 10000
+[0m16:53:55.077672 [debug] [ThreadPool]: On list_HEALTHCARE: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE"} */
+show terse schemas in database HEALTHCARE
+    limit 10000
+[0m16:53:55.078002 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:53:55.078256 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:53:56.693808 [debug] [ThreadPool]: SQL status: SUCCESS 6 in 2.0 seconds
+[0m16:53:56.696861 [debug] [ThreadPool]: On list_HEALTHCARE: Close
+[0m16:53:56.710912 [debug] [ThreadPool]: SQL status: SUCCESS 6 in 2.0 seconds
+[0m16:53:56.713341 [debug] [ThreadPool]: On list_HEALTHCARE: Close
+[0m16:53:56.720127 [debug] [ThreadPool]: SQL status: SUCCESS 6 in 2.0 seconds
+[0m16:53:56.721795 [debug] [ThreadPool]: On list_HEALTHCARE: Close
+[0m16:53:57.324173 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_HEALTHCARE, now list_HEALTHCARE_staging_staging)
+[0m16:53:57.325382 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_HEALTHCARE, now list_HEALTHCARE_staging_marts)
+[0m16:53:57.326557 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_HEALTHCARE, now list_HEALTHCARE_staging_intermediate)
+[0m16:53:57.337042 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE_staging_staging"
+[0m16:53:57.339628 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE_staging_marts"
+[0m16:53:57.342108 [debug] [ThreadPool]: Using snowflake connection "list_HEALTHCARE_staging_intermediate"
+[0m16:53:57.342655 [debug] [ThreadPool]: On list_HEALTHCARE_staging_staging: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE_staging_staging"} */
+show objects in HEALTHCARE.staging_staging limit 10000
+[0m16:53:57.343155 [debug] [ThreadPool]: On list_HEALTHCARE_staging_marts: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE_staging_marts"} */
+show objects in HEALTHCARE.staging_marts limit 10000
+[0m16:53:57.343632 [debug] [ThreadPool]: On list_HEALTHCARE_staging_intermediate: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "connection_name": "list_HEALTHCARE_staging_intermediate"} */
+show objects in HEALTHCARE.staging_intermediate limit 10000
+[0m16:53:57.344053 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m16:53:57.344450 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m16:53:57.344828 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m16:53:58.521111 [debug] [ThreadPool]: SQL status: SUCCESS 0 in 1.0 seconds
+[0m16:53:58.523431 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:53:58.524556 [debug] [ThreadPool]: SQL status: SUCCESS 2 in 1.0 seconds
+[0m16:53:58.527296 [debug] [ThreadPool]: On list_HEALTHCARE_staging_marts: Close
+[0m16:53:58.529298 [debug] [ThreadPool]: On list_HEALTHCARE_staging_intermediate: Close
+[0m16:53:58.530992 [debug] [ThreadPool]: On list_HEALTHCARE_staging_staging: Close
+[0m16:53:58.909240 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '44347d1b-a499-4a7d-b4ad-d404b5bf5bfb', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x133f5f920>]}
+[0m16:53:58.910948 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m16:53:58.911622 [info ] [MainThread]: 
+[0m16:53:58.913865 [debug] [Thread-1 (]: Began running node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f
+[0m16:53:58.914561 [debug] [Thread-2 (]: Began running node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7
+[0m16:53:58.915137 [debug] [Thread-3 (]: Began running node test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8
+[0m16:53:58.915680 [debug] [Thread-4 (]: Began running node test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10
+[0m16:53:58.916293 [info ] [Thread-1 (]: 1 of 19 START test source_not_null_raw_ocr_extractions_document_id ............. [RUN]
+[0m16:53:58.916863 [info ] [Thread-2 (]: 2 of 19 START test source_not_null_raw_ocr_extractions_tenant_id ............... [RUN]
+[0m16:53:58.917384 [info ] [Thread-3 (]: 3 of 19 START test source_not_null_raw_ocr_results_document_id ................. [RUN]
+[0m16:53:58.917888 [info ] [Thread-4 (]: 4 of 19 START test source_not_null_raw_ocr_results_test_name ................... [RUN]
+[0m16:53:58.918775 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_HEALTHCARE_staging_staging, now test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f)
+[0m16:53:58.919584 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly list_HEALTHCARE_staging_marts, now test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7)
+[0m16:53:58.920354 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly list_HEALTHCARE_staging_intermediate, now test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8)
+[0m16:53:58.921255 [debug] [Thread-4 (]: Acquiring new snowflake connection 'test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10'
+[0m16:53:58.921779 [debug] [Thread-1 (]: Began compiling node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f
+[0m16:53:58.922260 [debug] [Thread-2 (]: Began compiling node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7
+[0m16:53:58.922735 [debug] [Thread-3 (]: Began compiling node test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8
+[0m16:53:58.923221 [debug] [Thread-4 (]: Began compiling node test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10
+[0m16:53:58.941189 [debug] [Thread-1 (]: Writing injected SQL for node "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f"
+[0m16:53:58.945330 [debug] [Thread-2 (]: Writing injected SQL for node "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7"
+[0m16:53:58.948586 [debug] [Thread-3 (]: Writing injected SQL for node "test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8"
+[0m16:53:58.952465 [debug] [Thread-4 (]: Writing injected SQL for node "test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10"
+[0m16:53:58.953336 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7 (compile): 16:53:58.941586 => 16:53:58.953114
+[0m16:53:58.953752 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f (compile): 16:53:58.923704 => 16:53:58.953554
+[0m16:53:58.954183 [debug] [Thread-3 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8 (compile): 16:53:58.945667 => 16:53:58.954021
+[0m16:53:58.954504 [debug] [Thread-2 (]: Began executing node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7
+[0m16:53:58.954875 [debug] [Thread-4 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10 (compile): 16:53:58.948867 => 16:53:58.954721
+[0m16:53:58.955210 [debug] [Thread-1 (]: Began executing node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f
+[0m16:53:58.955533 [debug] [Thread-3 (]: Began executing node test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8
+[0m16:53:58.968273 [debug] [Thread-2 (]: Writing runtime sql for node "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7"
+[0m16:53:58.968679 [debug] [Thread-4 (]: Began executing node test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10
+[0m16:53:58.970388 [debug] [Thread-1 (]: Writing runtime sql for node "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f"
+[0m16:53:58.971959 [debug] [Thread-3 (]: Writing runtime sql for node "test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8"
+[0m16:53:58.973676 [debug] [Thread-4 (]: Writing runtime sql for node "test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10"
+[0m16:53:58.974401 [debug] [Thread-2 (]: Using snowflake connection "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7"
+[0m16:53:58.974924 [debug] [Thread-3 (]: Using snowflake connection "test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8"
+[0m16:53:58.975364 [debug] [Thread-1 (]: Using snowflake connection "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f"
+[0m16:53:58.975637 [debug] [Thread-2 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select tenant_id
+from HEALTHCARE.RAW.ocr_extractions
+where tenant_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:53:58.976162 [debug] [Thread-4 (]: Using snowflake connection "test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10"
+[0m16:53:58.976454 [debug] [Thread-3 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select document_id
+from HEALTHCARE.RAW.ocr_results
+where document_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:53:58.976776 [debug] [Thread-1 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select document_id
+from HEALTHCARE.RAW.ocr_extractions
+where document_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:53:58.977090 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m16:53:58.977382 [debug] [Thread-4 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select test_name
+from HEALTHCARE.RAW.ocr_results
+where test_name is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:53:58.977670 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m16:53:58.977934 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m16:53:58.978286 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m16:54:00.011709 [debug] [Thread-4 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:00.029643 [debug] [Thread-4 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10 (execute): 16:53:58.972225 => 16:54:00.029336
+[0m16:54:00.030831 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:00.031292 [debug] [Thread-4 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10: Close
+[0m16:54:00.031900 [debug] [Thread-1 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:00.032427 [debug] [Thread-3 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:00.034162 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7 (execute): 16:53:58.955750 => 16:54:00.033967
+[0m16:54:00.036312 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f (execute): 16:53:58.968883 => 16:54:00.036129
+[0m16:54:00.037980 [debug] [Thread-3 (]: Timing info for test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8 (execute): 16:53:58.970600 => 16:54:00.037798
+[0m16:54:00.038409 [debug] [Thread-2 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7: Close
+[0m16:54:00.039093 [debug] [Thread-1 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f: Close
+[0m16:54:00.039580 [debug] [Thread-3 (]: On test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8: Close
+[0m16:54:00.341249 [info ] [Thread-2 (]: 2 of 19 PASS source_not_null_raw_ocr_extractions_tenant_id ..................... [[32mPASS[0m in 1.42s]
+[0m16:54:00.342287 [debug] [Thread-2 (]: Finished running node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7
+[0m16:54:00.342896 [debug] [Thread-2 (]: Began running node test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3
+[0m16:54:00.343405 [info ] [Thread-2 (]: 5 of 19 START test source_unique_raw_ocr_extractions_document_id ............... [RUN]
+[0m16:54:00.344622 [info ] [Thread-4 (]: 4 of 19 PASS source_not_null_raw_ocr_results_test_name ......................... [[32mPASS[0m in 1.42s]
+[0m16:54:00.345439 [info ] [Thread-1 (]: 1 of 19 PASS source_not_null_raw_ocr_extractions_document_id ................... [[32mPASS[0m in 1.43s]
+[0m16:54:00.346101 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_not_null_raw_ocr_extractions_tenant_id.0f4fb0b8a7, now test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3)
+[0m16:54:00.346651 [debug] [Thread-4 (]: Finished running node test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10
+[0m16:54:00.347149 [debug] [Thread-1 (]: Finished running node test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f
+[0m16:54:00.347526 [debug] [Thread-2 (]: Began compiling node test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3
+[0m16:54:00.353608 [debug] [Thread-2 (]: Writing injected SQL for node "test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3"
+[0m16:54:00.354447 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3 (compile): 16:54:00.347959 => 16:54:00.354246
+[0m16:54:00.354820 [debug] [Thread-2 (]: Began executing node test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3
+[0m16:54:00.357270 [debug] [Thread-2 (]: Writing runtime sql for node "test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3"
+[0m16:54:00.358232 [debug] [Thread-2 (]: Using snowflake connection "test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3"
+[0m16:54:00.358769 [debug] [Thread-2 (]: On test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+select
+    document_id as unique_field,
+    count(*) as n_records
+
+from HEALTHCARE.RAW.ocr_extractions
+where document_id is not null
+group by document_id
+having count(*) > 1
+
+
+
+      
+    ) dbt_internal_test
+[0m16:54:00.359620 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m16:54:00.370474 [info ] [Thread-3 (]: 3 of 19 PASS source_not_null_raw_ocr_results_document_id ....................... [[32mPASS[0m in 1.45s]
+[0m16:54:00.372303 [debug] [Thread-3 (]: Finished running node test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8
+[0m16:54:00.374022 [debug] [Thread-4 (]: Began running node model.healthcare_pipeline.stg_ocr_results
+[0m16:54:00.375154 [info ] [Thread-4 (]: 6 of 19 START sql view model staging_staging.stg_ocr_results ................... [RUN]
+[0m16:54:00.376572 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_not_null_raw_ocr_results_test_name.6445fdaf10, now model.healthcare_pipeline.stg_ocr_results)
+[0m16:54:00.377553 [debug] [Thread-4 (]: Began compiling node model.healthcare_pipeline.stg_ocr_results
+[0m16:54:00.379900 [debug] [Thread-4 (]: Writing injected SQL for node "model.healthcare_pipeline.stg_ocr_results"
+[0m16:54:00.384020 [debug] [Thread-4 (]: Timing info for model.healthcare_pipeline.stg_ocr_results (compile): 16:54:00.377794 => 16:54:00.383776
+[0m16:54:00.385381 [debug] [Thread-4 (]: Began executing node model.healthcare_pipeline.stg_ocr_results
+[0m16:54:00.407370 [debug] [Thread-4 (]: Writing runtime sql for node "model.healthcare_pipeline.stg_ocr_results"
+[0m16:54:00.409476 [debug] [Thread-4 (]: Using snowflake connection "model.healthcare_pipeline.stg_ocr_results"
+[0m16:54:00.409882 [debug] [Thread-4 (]: On model.healthcare_pipeline.stg_ocr_results: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "model.healthcare_pipeline.stg_ocr_results"} */
+create or replace   view HEALTHCARE.staging_staging.stg_ocr_results
+  
+   as (
+    with source as (
+    select * from HEALTHCARE.RAW.ocr_results
+),
+
+cleaned as (
+    select
+        document_id,
+        tenant_id,
+
+        -- normalise test name and unit
+        trim(lower(test_name))                          as test_name,
+        trim(value)                                     as value,
+        try_to_number(value)                            as value_numeric,   -- null when non-numeric (e.g. "Positive")
+        trim(lower(unit))                               as unit,
+        trim(reference_range)                           as reference_range,
+        lower(trim(flag))                               as flag,            -- critical | high | low | borderline | normal
+
+        extracted_at::timestamp_tz                      as extracted_at
+    from source
+    where document_id is not null
+      and test_name    is not null
+)
+
+select * from cleaned
+  );
+[0m16:54:00.410210 [debug] [Thread-4 (]: Opening a new connection, currently in state closed
+[0m16:54:01.412707 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:01.415836 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3 (execute): 16:54:00.355039 => 16:54:01.415510
+[0m16:54:01.416416 [debug] [Thread-2 (]: On test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3: Close
+[0m16:54:01.446036 [debug] [Thread-4 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:01.464599 [debug] [Thread-4 (]: Timing info for model.healthcare_pipeline.stg_ocr_results (execute): 16:54:00.387421 => 16:54:01.464378
+[0m16:54:01.465111 [debug] [Thread-4 (]: On model.healthcare_pipeline.stg_ocr_results: Close
+[0m16:54:01.745564 [info ] [Thread-2 (]: 5 of 19 PASS source_unique_raw_ocr_extractions_document_id ..................... [[32mPASS[0m in 1.40s]
+[0m16:54:01.746917 [debug] [Thread-2 (]: Finished running node test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3
+[0m16:54:01.748238 [debug] [Thread-3 (]: Began running node model.healthcare_pipeline.stg_ocr_extractions
+[0m16:54:01.749325 [info ] [Thread-3 (]: 7 of 19 START sql view model staging_staging.stg_ocr_extractions ............... [RUN]
+[0m16:54:01.750628 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_not_null_raw_ocr_results_document_id.e907c9dff8, now model.healthcare_pipeline.stg_ocr_extractions)
+[0m16:54:01.751391 [debug] [Thread-3 (]: Began compiling node model.healthcare_pipeline.stg_ocr_extractions
+[0m16:54:01.755575 [debug] [Thread-3 (]: Writing injected SQL for node "model.healthcare_pipeline.stg_ocr_extractions"
+[0m16:54:01.756916 [debug] [Thread-3 (]: Timing info for model.healthcare_pipeline.stg_ocr_extractions (compile): 16:54:01.751858 => 16:54:01.756441
+[0m16:54:01.757619 [debug] [Thread-3 (]: Began executing node model.healthcare_pipeline.stg_ocr_extractions
+[0m16:54:01.762896 [debug] [Thread-3 (]: Writing runtime sql for node "model.healthcare_pipeline.stg_ocr_extractions"
+[0m16:54:01.765183 [debug] [Thread-3 (]: Using snowflake connection "model.healthcare_pipeline.stg_ocr_extractions"
+[0m16:54:01.765874 [debug] [Thread-3 (]: On model.healthcare_pipeline.stg_ocr_extractions: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "model.healthcare_pipeline.stg_ocr_extractions"} */
+create or replace   view HEALTHCARE.staging_staging.stg_ocr_extractions
+  
+   as (
+    with source as (
+    select * from HEALTHCARE.RAW.ocr_extractions
+),
+
+cleaned as (
+    select
+        document_id,
+        tenant_id,
+        report_type,
+
+        -- patient demographics — normalise whitespace and casing
+        trim(patient_name)                              as patient_name,
+        trim(patient_external_id)                       as patient_external_id,
+        try_to_date(patient_dob,    'YYYY-MM-DD')       as patient_dob,
+        lower(trim(patient_gender))                     as patient_gender,
+
+        -- report metadata
+        try_to_date(report_date, 'YYYY-MM-DD')          as report_date,
+        trim(doctor)                                    as doctor,
+        trim(facility)                                  as facility,
+
+        -- quality signals
+        extraction_status,
+        extraction_confidence::float                    as extraction_confidence,
+        extracted_at::timestamp_tz                      as extracted_at
+    from source
+    where document_id is not null
+)
+
+select * from cleaned
+  );
+[0m16:54:01.766477 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m16:54:01.794446 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '44347d1b-a499-4a7d-b4ad-d404b5bf5bfb', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x13455b440>]}
+[0m16:54:01.795092 [info ] [Thread-4 (]: 6 of 19 OK created sql view model staging_staging.stg_ocr_results .............. [[32mSUCCESS 1[0m in 1.42s]
+[0m16:54:01.795600 [debug] [Thread-4 (]: Finished running node model.healthcare_pipeline.stg_ocr_results
+[0m16:54:02.770596 [debug] [Thread-3 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:02.772989 [debug] [Thread-3 (]: Timing info for model.healthcare_pipeline.stg_ocr_extractions (execute): 16:54:01.758036 => 16:54:02.772834
+[0m16:54:02.773453 [debug] [Thread-3 (]: On model.healthcare_pipeline.stg_ocr_extractions: Close
+[0m16:54:03.096170 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '44347d1b-a499-4a7d-b4ad-d404b5bf5bfb', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1345300e0>]}
+[0m16:54:03.096762 [info ] [Thread-3 (]: 7 of 19 OK created sql view model staging_staging.stg_ocr_extractions .......... [[32mSUCCESS 1[0m in 1.35s]
+[0m16:54:03.097171 [debug] [Thread-3 (]: Finished running node model.healthcare_pipeline.stg_ocr_extractions
+[0m16:54:03.097931 [debug] [Thread-2 (]: Began running node model.healthcare_pipeline.dim_patients
+[0m16:54:03.098273 [debug] [Thread-1 (]: Began running node model.healthcare_pipeline.int_patient_documents
+[0m16:54:03.098560 [info ] [Thread-2 (]: 8 of 19 START sql dynamic_table model staging_marts.dim_patients ............... [RUN]
+[0m16:54:03.098870 [info ] [Thread-1 (]: 9 of 19 START sql view model staging_intermediate.int_patient_documents ........ [RUN]
+[0m16:54:03.099334 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_unique_raw_ocr_extractions_document_id.106e69b1f3, now model.healthcare_pipeline.dim_patients)
+[0m16:54:03.099723 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.source_not_null_raw_ocr_extractions_document_id.3ce64acd7f, now model.healthcare_pipeline.int_patient_documents)
+[0m16:54:03.099974 [debug] [Thread-2 (]: Began compiling node model.healthcare_pipeline.dim_patients
+[0m16:54:03.100453 [debug] [Thread-1 (]: Began compiling node model.healthcare_pipeline.int_patient_documents
+[0m16:54:03.102884 [debug] [Thread-2 (]: Writing injected SQL for node "model.healthcare_pipeline.dim_patients"
+[0m16:54:03.104759 [debug] [Thread-1 (]: Writing injected SQL for node "model.healthcare_pipeline.int_patient_documents"
+[0m16:54:03.105434 [debug] [Thread-1 (]: Timing info for model.healthcare_pipeline.int_patient_documents (compile): 16:54:03.103149 => 16:54:03.105285
+[0m16:54:03.105789 [debug] [Thread-2 (]: Timing info for model.healthcare_pipeline.dim_patients (compile): 16:54:03.100685 => 16:54:03.105606
+[0m16:54:03.106110 [debug] [Thread-1 (]: Began executing node model.healthcare_pipeline.int_patient_documents
+[0m16:54:03.106374 [debug] [Thread-2 (]: Began executing node model.healthcare_pipeline.dim_patients
+[0m16:54:03.108489 [debug] [Thread-1 (]: Writing runtime sql for node "model.healthcare_pipeline.int_patient_documents"
+[0m16:54:03.119209 [debug] [Thread-2 (]: Applying CREATE to: HEALTHCARE.staging_marts.dim_patients
+[0m16:54:03.123352 [debug] [Thread-2 (]: Writing runtime sql for node "model.healthcare_pipeline.dim_patients"
+[0m16:54:03.124984 [debug] [Thread-1 (]: Using snowflake connection "model.healthcare_pipeline.int_patient_documents"
+[0m16:54:03.125437 [debug] [Thread-1 (]: On model.healthcare_pipeline.int_patient_documents: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "model.healthcare_pipeline.int_patient_documents"} */
+create or replace   view HEALTHCARE.staging_intermediate.int_patient_documents
+  
+   as (
+    -- Join document-level metadata with every test result it contains.
+-- One row per (document, test_result) pair.
+with extractions as (
+    select * from HEALTHCARE.staging_staging.stg_ocr_extractions
+),
+
+results as (
+    select * from HEALTHCARE.staging_staging.stg_ocr_results
+),
+
+joined as (
+    select
+        -- document identity
+        e.document_id,
+        e.tenant_id,
+        e.report_type,
+
+        -- patient context
+        e.patient_name,
+        e.patient_external_id,
+        e.patient_dob,
+        e.patient_gender,
+
+        -- report context
+        e.report_date,
+        e.doctor,
+        e.facility,
+        e.extraction_confidence,
+
+        -- test result
+        r.test_name,
+        r.value,
+        r.value_numeric,
+        r.unit,
+        r.reference_range,
+        r.flag,
+
+        e.extracted_at
+    from extractions e
+    left join results r
+        on e.document_id = r.document_id
+)
+
+select * from joined
+  );
+[0m16:54:03.125748 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m16:54:03.127485 [debug] [Thread-2 (]: Using snowflake connection "model.healthcare_pipeline.dim_patients"
+[0m16:54:03.128535 [debug] [Thread-2 (]: On model.healthcare_pipeline.dim_patients: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "model.healthcare_pipeline.dim_patients"} */
+create dynamic table HEALTHCARE.staging_marts.dim_patients
+        target_lag = '60 seconds'
+        warehouse = COMPUTE_WH
+        as (
+            -- One row per patient per tenant.
+-- Deduplication key: patient_external_id when present, else patient_name.
+-- Latest extracted record wins.
+with extractions as (
+    select * from HEALTHCARE.staging_staging.stg_ocr_extractions
+    where patient_name is not null
+),
+
+ranked as (
+    select
+        *,
+        row_number() over (
+            partition by tenant_id,
+                         coalesce(nullif(trim(patient_external_id), ''), trim(patient_name))
+            order by extracted_at desc
+        ) as rn
+    from extractions
+),
+
+final as (
+    select
+        md5(tenant_id || '|' || coalesce(nullif(trim(patient_external_id), ''), trim(patient_name))) as patient_key,
+        tenant_id,
+        patient_name,
+        patient_external_id,
+        patient_dob,
+        patient_gender,
+        extracted_at                                    as last_seen_at
+    from ranked
+    where rn = 1
+)
+
+select * from final
+        )
+[0m16:54:03.129237 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m16:54:04.336759 [debug] [Thread-1 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:04.347629 [debug] [Thread-1 (]: Timing info for model.healthcare_pipeline.int_patient_documents (execute): 16:54:03.106544 => 16:54:04.347208
+[0m16:54:04.349512 [debug] [Thread-1 (]: On model.healthcare_pipeline.int_patient_documents: Close
+[0m16:54:04.662099 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '44347d1b-a499-4a7d-b4ad-d404b5bf5bfb', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1357fb650>]}
+[0m16:54:04.663583 [info ] [Thread-1 (]: 9 of 19 OK created sql view model staging_intermediate.int_patient_documents ... [[32mSUCCESS 1[0m in 1.56s]
+[0m16:54:04.664732 [debug] [Thread-1 (]: Finished running node model.healthcare_pipeline.int_patient_documents
+[0m16:54:04.935231 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 2.0 seconds
+[0m16:54:04.939565 [debug] [Thread-2 (]: Timing info for model.healthcare_pipeline.dim_patients (execute): 16:54:03.108797 => 16:54:04.939230
+[0m16:54:04.940348 [debug] [Thread-2 (]: On model.healthcare_pipeline.dim_patients: Close
+[0m16:54:05.257514 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '44347d1b-a499-4a7d-b4ad-d404b5bf5bfb', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1347107a0>]}
+[0m16:54:05.258830 [info ] [Thread-2 (]: 8 of 19 OK created sql dynamic_table model staging_marts.dim_patients .......... [[32mSUCCESS 1[0m in 2.16s]
+[0m16:54:05.259912 [debug] [Thread-2 (]: Finished running node model.healthcare_pipeline.dim_patients
+[0m16:54:05.261696 [debug] [Thread-3 (]: Began running node test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9
+[0m16:54:05.262621 [debug] [Thread-4 (]: Began running node test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8
+[0m16:54:05.263461 [debug] [Thread-1 (]: Began running node test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330
+[0m16:54:05.264237 [debug] [Thread-2 (]: Began running node test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a
+[0m16:54:05.264888 [info ] [Thread-3 (]: 10 of 19 START test not_null_dim_patients_patient_key .......................... [RUN]
+[0m16:54:05.265595 [info ] [Thread-4 (]: 11 of 19 START test not_null_dim_patients_patient_name ......................... [RUN]
+[0m16:54:05.266233 [info ] [Thread-1 (]: 12 of 19 START test not_null_dim_patients_tenant_id ............................ [RUN]
+[0m16:54:05.266845 [info ] [Thread-2 (]: 13 of 19 START test unique_dim_patients_patient_key ............................ [RUN]
+[0m16:54:05.267940 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly model.healthcare_pipeline.stg_ocr_extractions, now test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9)
+[0m16:54:05.268875 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly model.healthcare_pipeline.stg_ocr_results, now test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8)
+[0m16:54:05.269764 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.healthcare_pipeline.int_patient_documents, now test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330)
+[0m16:54:05.270642 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.healthcare_pipeline.dim_patients, now test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a)
+[0m16:54:05.271260 [debug] [Thread-3 (]: Began compiling node test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9
+[0m16:54:05.271823 [debug] [Thread-4 (]: Began compiling node test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8
+[0m16:54:05.272361 [debug] [Thread-1 (]: Began compiling node test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330
+[0m16:54:05.272899 [debug] [Thread-2 (]: Began compiling node test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a
+[0m16:54:05.282135 [debug] [Thread-3 (]: Writing injected SQL for node "test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9"
+[0m16:54:05.286875 [debug] [Thread-4 (]: Writing injected SQL for node "test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8"
+[0m16:54:05.291491 [debug] [Thread-1 (]: Writing injected SQL for node "test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330"
+[0m16:54:05.295350 [debug] [Thread-2 (]: Writing injected SQL for node "test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a"
+[0m16:54:05.296555 [debug] [Thread-4 (]: Timing info for test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8 (compile): 16:54:05.282561 => 16:54:05.296305
+[0m16:54:05.297012 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330 (compile): 16:54:05.287370 => 16:54:05.296823
+[0m16:54:05.297417 [debug] [Thread-3 (]: Timing info for test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9 (compile): 16:54:05.273365 => 16:54:05.297237
+[0m16:54:05.297840 [debug] [Thread-4 (]: Began executing node test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8
+[0m16:54:05.298348 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a (compile): 16:54:05.291914 => 16:54:05.298099
+[0m16:54:05.298748 [debug] [Thread-1 (]: Began executing node test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330
+[0m16:54:05.299158 [debug] [Thread-3 (]: Began executing node test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9
+[0m16:54:05.301674 [debug] [Thread-4 (]: Writing runtime sql for node "test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8"
+[0m16:54:05.302101 [debug] [Thread-2 (]: Began executing node test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a
+[0m16:54:05.304240 [debug] [Thread-1 (]: Writing runtime sql for node "test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330"
+[0m16:54:05.306173 [debug] [Thread-3 (]: Writing runtime sql for node "test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9"
+[0m16:54:05.308395 [debug] [Thread-2 (]: Writing runtime sql for node "test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a"
+[0m16:54:05.309396 [debug] [Thread-1 (]: Using snowflake connection "test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330"
+[0m16:54:05.309994 [debug] [Thread-4 (]: Using snowflake connection "test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8"
+[0m16:54:05.310413 [debug] [Thread-1 (]: On test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select tenant_id
+from HEALTHCARE.staging_marts.dim_patients
+where tenant_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:54:05.310985 [debug] [Thread-3 (]: Using snowflake connection "test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9"
+[0m16:54:05.311612 [debug] [Thread-2 (]: Using snowflake connection "test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a"
+[0m16:54:05.311913 [debug] [Thread-4 (]: On test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select patient_name
+from HEALTHCARE.staging_marts.dim_patients
+where patient_name is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:54:05.312250 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m16:54:05.312576 [debug] [Thread-3 (]: On test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select patient_key
+from HEALTHCARE.staging_marts.dim_patients
+where patient_key is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:54:05.312910 [debug] [Thread-2 (]: On test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+select
+    patient_key as unique_field,
+    count(*) as n_records
+
+from HEALTHCARE.staging_marts.dim_patients
+where patient_key is not null
+group by patient_key
+having count(*) > 1
+
+
+
+      
+    ) dbt_internal_test
+[0m16:54:05.313419 [debug] [Thread-4 (]: Opening a new connection, currently in state closed
+[0m16:54:05.314071 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m16:54:05.314505 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m16:54:06.458005 [debug] [Thread-4 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:06.458815 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:06.461169 [debug] [Thread-4 (]: Timing info for test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8 (execute): 16:54:05.299412 => 16:54:06.460943
+[0m16:54:06.462111 [debug] [Thread-1 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:06.463597 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a (execute): 16:54:05.306488 => 16:54:06.463403
+[0m16:54:06.464000 [debug] [Thread-4 (]: On test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8: Close
+[0m16:54:06.465658 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330 (execute): 16:54:05.302355 => 16:54:06.465296
+[0m16:54:06.466040 [debug] [Thread-2 (]: On test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a: Close
+[0m16:54:06.467486 [debug] [Thread-1 (]: On test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330: Close
+[0m16:54:06.468427 [debug] [Thread-3 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:06.472178 [debug] [Thread-3 (]: Timing info for test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9 (execute): 16:54:05.304491 => 16:54:06.471974
+[0m16:54:06.473268 [debug] [Thread-3 (]: On test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9: Close
+[0m16:54:06.823770 [info ] [Thread-2 (]: 13 of 19 PASS unique_dim_patients_patient_key .................................. [[32mPASS[0m in 1.55s]
+[0m16:54:06.824821 [debug] [Thread-2 (]: Finished running node test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a
+[0m16:54:06.830873 [info ] [Thread-3 (]: 10 of 19 PASS not_null_dim_patients_patient_key ................................ [[32mPASS[0m in 1.56s]
+[0m16:54:06.832016 [info ] [Thread-1 (]: 12 of 19 PASS not_null_dim_patients_tenant_id .................................. [[32mPASS[0m in 1.56s]
+[0m16:54:06.833138 [info ] [Thread-4 (]: 11 of 19 PASS not_null_dim_patients_patient_name ............................... [[32mPASS[0m in 1.56s]
+[0m16:54:06.833941 [debug] [Thread-3 (]: Finished running node test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9
+[0m16:54:06.834637 [debug] [Thread-1 (]: Finished running node test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330
+[0m16:54:06.835356 [debug] [Thread-4 (]: Finished running node test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8
+[0m16:54:06.836434 [debug] [Thread-2 (]: Began running node model.healthcare_pipeline.fct_lab_results
+[0m16:54:06.837146 [info ] [Thread-2 (]: 14 of 19 START sql dynamic_table model staging_marts.fct_lab_results ........... [RUN]
+[0m16:54:06.837935 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.unique_dim_patients_patient_key.a372c8896a, now model.healthcare_pipeline.fct_lab_results)
+[0m16:54:06.838396 [debug] [Thread-2 (]: Began compiling node model.healthcare_pipeline.fct_lab_results
+[0m16:54:06.841741 [debug] [Thread-2 (]: Writing injected SQL for node "model.healthcare_pipeline.fct_lab_results"
+[0m16:54:06.842603 [debug] [Thread-2 (]: Timing info for model.healthcare_pipeline.fct_lab_results (compile): 16:54:06.838694 => 16:54:06.842371
+[0m16:54:06.843041 [debug] [Thread-2 (]: Began executing node model.healthcare_pipeline.fct_lab_results
+[0m16:54:06.846146 [debug] [Thread-2 (]: Applying CREATE to: HEALTHCARE.staging_marts.fct_lab_results
+[0m16:54:06.847285 [debug] [Thread-2 (]: Writing runtime sql for node "model.healthcare_pipeline.fct_lab_results"
+[0m16:54:06.848884 [debug] [Thread-2 (]: Using snowflake connection "model.healthcare_pipeline.fct_lab_results"
+[0m16:54:06.849339 [debug] [Thread-2 (]: On model.healthcare_pipeline.fct_lab_results: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "model.healthcare_pipeline.fct_lab_results"} */
+create dynamic table HEALTHCARE.staging_marts.fct_lab_results
+        target_lag = '60 seconds'
+        warehouse = COMPUTE_WH
+        as (
+            -- Fact table: one row per (document, test_result).
+-- Joined with dim_patients so every result carries a stable patient_key.
+with documents as (
+    select * from HEALTHCARE.staging_intermediate.int_patient_documents
+    where test_name is not null
+),
+
+patients as (
+    select * from HEALTHCARE.staging_marts.dim_patients
+),
+
+final as (
+    select
+        md5(d.document_id || '|' || d.test_name)       as result_key,
+        d.document_id,
+        p.patient_key,
+        d.tenant_id,
+        d.report_type,
+
+        -- test result
+        d.test_name,
+        d.value,
+        d.value_numeric,
+        d.unit,
+        d.reference_range,
+        d.flag,
+
+        -- report context
+        d.report_date,
+        d.doctor,
+        d.facility,
+        d.extraction_confidence,
+        d.extracted_at
+    from documents d
+    left join patients p
+        on  d.tenant_id = p.tenant_id
+        and coalesce(nullif(trim(d.patient_external_id), ''), trim(d.patient_name))
+          = coalesce(nullif(trim(p.patient_external_id),  ''), trim(p.patient_name))
+)
+
+select * from final
+        )
+[0m16:54:06.849794 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m16:54:09.175281 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 2.0 seconds
+[0m16:54:09.182850 [debug] [Thread-2 (]: Timing info for model.healthcare_pipeline.fct_lab_results (execute): 16:54:06.843322 => 16:54:09.182358
+[0m16:54:09.183698 [debug] [Thread-2 (]: On model.healthcare_pipeline.fct_lab_results: Close
+[0m16:54:09.510746 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '44347d1b-a499-4a7d-b4ad-d404b5bf5bfb', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x135a0bbf0>]}
+[0m16:54:09.512261 [info ] [Thread-2 (]: 14 of 19 OK created sql dynamic_table model staging_marts.fct_lab_results ...... [[32mSUCCESS 1[0m in 2.67s]
+[0m16:54:09.513243 [debug] [Thread-2 (]: Finished running node model.healthcare_pipeline.fct_lab_results
+[0m16:54:09.515404 [debug] [Thread-1 (]: Began running node test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f
+[0m16:54:09.516170 [debug] [Thread-4 (]: Began running node test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1
+[0m16:54:09.516850 [debug] [Thread-3 (]: Began running node test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6
+[0m16:54:09.517438 [debug] [Thread-2 (]: Began running node test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd
+[0m16:54:09.518184 [info ] [Thread-1 (]: 15 of 19 START test accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal  [RUN]
+[0m16:54:09.518841 [info ] [Thread-4 (]: 16 of 19 START test not_null_fct_lab_results_document_id ....................... [RUN]
+[0m16:54:09.519462 [info ] [Thread-3 (]: 17 of 19 START test not_null_fct_lab_results_result_key ........................ [RUN]
+[0m16:54:09.520055 [info ] [Thread-2 (]: 18 of 19 START test not_null_fct_lab_results_test_name ......................... [RUN]
+[0m16:54:09.521184 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.not_null_dim_patients_tenant_id.18eb16f330, now test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f)
+[0m16:54:09.522154 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.not_null_dim_patients_patient_name.e47e004bf8, now test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1)
+[0m16:54:09.522980 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.not_null_dim_patients_patient_key.72094911f9, now test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6)
+[0m16:54:09.523939 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.healthcare_pipeline.fct_lab_results, now test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd)
+[0m16:54:09.524616 [debug] [Thread-1 (]: Began compiling node test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f
+[0m16:54:09.525159 [debug] [Thread-4 (]: Began compiling node test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1
+[0m16:54:09.525666 [debug] [Thread-3 (]: Began compiling node test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6
+[0m16:54:09.526151 [debug] [Thread-2 (]: Began compiling node test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd
+[0m16:54:09.540454 [debug] [Thread-1 (]: Writing injected SQL for node "test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f"
+[0m16:54:09.544412 [debug] [Thread-4 (]: Writing injected SQL for node "test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1"
+[0m16:54:09.547918 [debug] [Thread-3 (]: Writing injected SQL for node "test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6"
+[0m16:54:09.551284 [debug] [Thread-2 (]: Writing injected SQL for node "test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd"
+[0m16:54:09.552251 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f (compile): 16:54:09.526492 => 16:54:09.552004
+[0m16:54:09.552697 [debug] [Thread-4 (]: Timing info for test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1 (compile): 16:54:09.540837 => 16:54:09.552507
+[0m16:54:09.553089 [debug] [Thread-3 (]: Timing info for test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6 (compile): 16:54:09.544747 => 16:54:09.552909
+[0m16:54:09.553505 [debug] [Thread-1 (]: Began executing node test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f
+[0m16:54:09.553961 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd (compile): 16:54:09.548212 => 16:54:09.553786
+[0m16:54:09.554286 [debug] [Thread-4 (]: Began executing node test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1
+[0m16:54:09.554652 [debug] [Thread-3 (]: Began executing node test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6
+[0m16:54:09.556970 [debug] [Thread-1 (]: Writing runtime sql for node "test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f"
+[0m16:54:09.557354 [debug] [Thread-2 (]: Began executing node test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd
+[0m16:54:09.559419 [debug] [Thread-4 (]: Writing runtime sql for node "test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1"
+[0m16:54:09.561292 [debug] [Thread-3 (]: Writing runtime sql for node "test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6"
+[0m16:54:09.563166 [debug] [Thread-2 (]: Writing runtime sql for node "test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd"
+[0m16:54:09.563965 [debug] [Thread-1 (]: Using snowflake connection "test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f"
+[0m16:54:09.564611 [debug] [Thread-4 (]: Using snowflake connection "test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1"
+[0m16:54:09.564991 [debug] [Thread-1 (]: On test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+with all_values as (
+
+    select
+        flag as value_field,
+        count(*) as n_records
+
+    from HEALTHCARE.staging_marts.fct_lab_results
+    group by flag
+
+)
+
+select *
+from all_values
+where value_field not in (
+    'critical','high','low','borderline','normal'
+)
+
+
+
+      
+    ) dbt_internal_test
+[0m16:54:09.565578 [debug] [Thread-3 (]: Using snowflake connection "test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6"
+[0m16:54:09.565909 [debug] [Thread-4 (]: On test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select document_id
+from HEALTHCARE.staging_marts.fct_lab_results
+where document_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:54:09.566424 [debug] [Thread-2 (]: Using snowflake connection "test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd"
+[0m16:54:09.566742 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m16:54:09.567077 [debug] [Thread-3 (]: On test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select result_key
+from HEALTHCARE.staging_marts.fct_lab_results
+where result_key is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:54:09.567407 [debug] [Thread-4 (]: Opening a new connection, currently in state closed
+[0m16:54:09.567724 [debug] [Thread-2 (]: On test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select test_name
+from HEALTHCARE.staging_marts.fct_lab_results
+where test_name is null
+
+
+
+      
+    ) dbt_internal_test
+[0m16:54:09.568177 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m16:54:09.569745 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m16:54:10.581261 [debug] [Thread-4 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:10.582748 [debug] [Thread-3 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:10.587685 [debug] [Thread-4 (]: Timing info for test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1 (execute): 16:54:09.557587 => 16:54:10.587246
+[0m16:54:10.588895 [debug] [Thread-1 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:10.590183 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:10.593159 [debug] [Thread-3 (]: Timing info for test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6 (execute): 16:54:09.559684 => 16:54:10.592817
+[0m16:54:10.593851 [debug] [Thread-4 (]: On test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1: Close
+[0m16:54:10.596268 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f (execute): 16:54:09.554943 => 16:54:10.595937
+[0m16:54:10.598653 [debug] [Thread-2 (]: Timing info for test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd (execute): 16:54:09.561587 => 16:54:10.598347
+[0m16:54:10.599282 [debug] [Thread-3 (]: On test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6: Close
+[0m16:54:10.601451 [debug] [Thread-1 (]: On test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f: Close
+[0m16:54:10.602345 [debug] [Thread-2 (]: On test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd: Close
+[0m16:54:10.897960 [info ] [Thread-1 (]: 15 of 19 PASS accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal  [[32mPASS[0m in 1.38s]
+[0m16:54:10.899413 [debug] [Thread-1 (]: Finished running node test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f
+[0m16:54:10.900046 [debug] [Thread-1 (]: Began running node test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3
+[0m16:54:10.901558 [info ] [Thread-1 (]: 19 of 19 START test unique_fct_lab_results_result_key .......................... [RUN]
+[0m16:54:10.902551 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.healthcare_pipeline.accepted_values_fct_lab_results_flag__True__critical__high__low__borderline__normal.3ab722f33f, now test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3)
+[0m16:54:10.903159 [debug] [Thread-1 (]: Began compiling node test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3
+[0m16:54:10.908654 [debug] [Thread-1 (]: Writing injected SQL for node "test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3"
+[0m16:54:10.909660 [info ] [Thread-2 (]: 18 of 19 PASS not_null_fct_lab_results_test_name ............................... [[32mPASS[0m in 1.39s]
+[0m16:54:10.910594 [info ] [Thread-3 (]: 17 of 19 PASS not_null_fct_lab_results_result_key .............................. [[32mPASS[0m in 1.39s]
+[0m16:54:10.911390 [debug] [Thread-2 (]: Finished running node test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd
+[0m16:54:10.912012 [debug] [Thread-3 (]: Finished running node test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6
+[0m16:54:10.912676 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3 (compile): 16:54:10.903547 => 16:54:10.912385
+[0m16:54:10.913329 [debug] [Thread-1 (]: Began executing node test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3
+[0m16:54:10.916149 [debug] [Thread-1 (]: Writing runtime sql for node "test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3"
+[0m16:54:10.917324 [debug] [Thread-1 (]: Using snowflake connection "test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3"
+[0m16:54:10.917813 [debug] [Thread-1 (]: On test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "healthcare", "target_name": "dev", "node_id": "test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+select
+    result_key as unique_field,
+    count(*) as n_records
+
+from HEALTHCARE.staging_marts.fct_lab_results
+where result_key is not null
+group by result_key
+having count(*) > 1
+
+
+
+      
+    ) dbt_internal_test
+[0m16:54:10.918275 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m16:54:10.922715 [info ] [Thread-4 (]: 16 of 19 PASS not_null_fct_lab_results_document_id ............................. [[32mPASS[0m in 1.40s]
+[0m16:54:10.924637 [debug] [Thread-4 (]: Finished running node test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1
+[0m16:54:11.868550 [debug] [Thread-1 (]: SQL status: SUCCESS 1 in 1.0 seconds
+[0m16:54:11.871224 [debug] [Thread-1 (]: Timing info for test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3 (execute): 16:54:10.913634 => 16:54:11.870918
+[0m16:54:11.871801 [debug] [Thread-1 (]: On test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3: Close
+[0m16:54:12.178306 [info ] [Thread-1 (]: 19 of 19 PASS unique_fct_lab_results_result_key ................................ [[32mPASS[0m in 1.28s]
+[0m16:54:12.179511 [debug] [Thread-1 (]: Finished running node test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3
+[0m16:54:12.182320 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m16:54:12.182968 [debug] [MainThread]: Connection 'test.healthcare_pipeline.unique_fct_lab_results_result_key.378e4816c3' was properly closed.
+[0m16:54:12.183422 [debug] [MainThread]: Connection 'test.healthcare_pipeline.not_null_fct_lab_results_test_name.35116053cd' was properly closed.
+[0m16:54:12.183846 [debug] [MainThread]: Connection 'test.healthcare_pipeline.not_null_fct_lab_results_result_key.1a419674b6' was properly closed.
+[0m16:54:12.184266 [debug] [MainThread]: Connection 'test.healthcare_pipeline.not_null_fct_lab_results_document_id.71ccbd15c1' was properly closed.
+[0m16:54:12.184816 [info ] [MainThread]: 
+[0m16:54:12.185333 [info ] [MainThread]: Finished running 14 tests, 3 view models, 2 dynamic_table models in 0 hours 0 minutes and 17.12 seconds (17.12s).
+[0m16:54:12.188199 [debug] [MainThread]: Command end result
+[0m16:54:12.198581 [info ] [MainThread]: 
+[0m16:54:12.199169 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m16:54:12.199616 [info ] [MainThread]: 
+[0m16:54:12.200374 [info ] [MainThread]: Done. PASS=19 WARN=0 ERROR=0 SKIP=0 TOTAL=19
+[0m16:54:12.210184 [debug] [MainThread]: Resource report: {"command_name": "build", "command_success": true, "command_wall_clock_time": 17.907917, "process_user_time": 3.740702, "process_kernel_time": 0.665389, "process_mem_max_rss": "228556800", "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m16:54:12.212004 [debug] [MainThread]: Command `dbt build` succeeded at 16:54:12.211853 after 17.91 seconds
+[0m16:54:12.213535 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x111820230>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x13471fb60>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x133e99940>]}
+[0m16:54:12.214063 [debug] [MainThread]: Flushing usage events

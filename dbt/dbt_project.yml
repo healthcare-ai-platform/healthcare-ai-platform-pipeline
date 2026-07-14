@@ -18,7 +18,7 @@ models:
       +materialized: view           # always live — joins on staging views
       +schema: intermediate
     marts:
-      +materialized: dynamic_table  # Snowflake auto-refreshes every 30 seconds
-      +target_lag: "30 seconds"
+      +materialized: dynamic_table  # Snowflake auto-refreshes every 60 seconds
+      +target_lag: "60 seconds"     # Dynamic Tables reject lag values under 60s
       +snowflake_warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'COMPUTE_WH') }}"
       +schema: marts

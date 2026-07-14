@@ -1,4 +1,5 @@
 import io
+import json
 import os
 from datetime import datetime, timezone
 from typing import Optional
@@ -11,10 +12,15 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.tools import tool
 from pydantic import Field
 
+from common.db import get_connection
 from common.logger import get_logger
 from common.s3 import S3_BUCKET, download_file, upload_bytes
 
 log = get_logger(__name__)
+
+# Result-level flags the `report_results` CHECK constraint accepts — anything
+# else gets stored as NULL rather than failing the whole insert.
+_VALID_FLAGS = {"normal", "high", "low", "critical", "borderline"}
 
 SILVER_PREFIX = os.getenv("SILVER_PREFIX", "processed")
 
@@ -151,16 +157,193 @@ def _write_parquet(df: pd.DataFrame, key: str) -> None:
     upload_bytes(key, buf.read())
 
 
-# ── Public entry point ────────────────────────────────────────────────────────
-
-def extract_pdf(s3_key: str, document_id: str, tenant_id: str, report_type: str) -> tuple[str, str]:
+def _write_silver_parquets(document_id: str, tenant_id: str, report_type: str, state: _ExtractionState) -> tuple[str, str]:
     """
-    Read a PDF from S3 bronze, extract structured patient + report + test result
-    data using a LangChain tool-calling agent, then write two partitioned Parquet
-    files to S3 silver:
+    Write the two partitioned Parquet files shared by every extraction source
+    (OCR'd PDFs and pre-structured JSON uploads alike):
 
       processed/ocr_extractions/tenant=.../year=.../month=.../day=.../<doc_id>.parquet
       processed/ocr_results/tenant=.../year=.../month=.../day=.../<doc_id>.parquet
+
+    Returns (summary_key, results_key).
+    """
+    now          = datetime.now(tz=timezone.utc)
+    extracted_at = now.isoformat()
+    partition    = (
+        f"tenant={tenant_id}"
+        f"/year={now.year}/month={now.month:02d}/day={now.day:02d}"
+    )
+
+    summary_df = pd.DataFrame([{
+        "document_id":           document_id,
+        "tenant_id":             tenant_id,
+        "report_type":           report_type,
+        **state.patient,
+        **state.report,
+        "extraction_status":     "completed",
+        "extracted_at":          extracted_at,
+    }])
+    summary_key = f"{SILVER_PREFIX}/ocr_extractions/{partition}/{document_id}.parquet"
+    _write_parquet(summary_df, summary_key)
+
+    results_rows = [
+        {"document_id": document_id, "tenant_id": tenant_id, **r, "extracted_at": extracted_at}
+        for r in state.results
+    ]
+    results_df = pd.DataFrame(results_rows) if results_rows else pd.DataFrame(columns=[
+        "document_id", "tenant_id", "test_name", "value",
+        "unit", "reference_range", "flag", "extracted_at",
+    ])
+    results_key = f"{SILVER_PREFIX}/ocr_results/{partition}/{document_id}.parquet"
+    _write_parquet(results_df, results_key)
+
+    log.info(
+        "Wrote silver Parquets for %s — %d test results → s3://%s/{%s, %s}",
+        document_id, len(state.results), S3_BUCKET, summary_key, results_key,
+    )
+    return summary_key, results_key
+
+
+def _parse_numeric(value) -> Optional[float]:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def write_operational_records(
+    document_id: str, tenant_id: str, facility_id: str, report_type: str,
+    summary_key: str, state: _ExtractionState,
+) -> None:
+    """
+    Persist extracted patient/report/results into the operational Postgres
+    tables the product UI actually reads (patients, reports, report_results) —
+    without this, extraction only ever reaches Snowflake analytics and never
+    shows up on the Patients page.
+    """
+    patient = state.patient
+    report  = state.report
+
+    name = patient.get("patient_name")
+    dob  = patient.get("patient_dob")
+    if not name or not dob:
+        raise ValueError(f"Extraction incomplete for {document_id} — missing patient name/dob")
+
+    external_id = patient.get("patient_external_id") or document_id
+    gender      = patient.get("patient_gender") or "unknown"
+
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO patients (tenant_id, external_id, name, dob, gender)
+                VALUES (%(tenant_id)s, %(external_id)s, %(name)s, %(dob)s, %(gender)s)
+                ON CONFLICT (tenant_id, external_id) DO UPDATE
+                    SET name = EXCLUDED.name, updated_at = NOW()
+                RETURNING patient_id
+                """,
+                {"tenant_id": tenant_id, "external_id": external_id, "name": name, "dob": dob, "gender": gender},
+            )
+            patient_id = cur.fetchone()[0]
+
+            cur.execute(
+                """
+                INSERT INTO reports (
+                    document_id, patient_id, facility_id, report_type, report_date,
+                    doctor, extraction_status, extraction_confidence, s3_extracted_path
+                ) VALUES (
+                    %(document_id)s, %(patient_id)s, %(facility_id)s, %(report_type)s, %(report_date)s,
+                    %(doctor)s, 'extracted', %(confidence)s, %(s3_path)s
+                )
+                ON CONFLICT (document_id) DO UPDATE
+                    SET extraction_status     = EXCLUDED.extraction_status,
+                        extraction_confidence = EXCLUDED.extraction_confidence,
+                        updated_at             = NOW()
+                RETURNING report_id
+                """,
+                {
+                    "document_id": document_id,
+                    "patient_id":  patient_id,
+                    "facility_id": facility_id,
+                    "report_type": report_type,
+                    "report_date": report.get("report_date"),
+                    "doctor":      report.get("doctor"),
+                    "confidence":  report.get("extraction_confidence"),
+                    "s3_path":     summary_key,
+                },
+            )
+            report_id = cur.fetchone()[0]
+
+            # Re-processing the same document replaces its results rather than
+            # appending duplicates.
+            cur.execute("DELETE FROM report_results WHERE report_id = %s", (report_id,))
+            for r in state.results:
+                flag = r.get("flag") if r.get("flag") in _VALID_FLAGS else None
+                cur.execute(
+                    """
+                    INSERT INTO report_results (report_id, test_name, value, unit, reference_range, flag)
+                    VALUES (%(report_id)s, %(test_name)s, %(value)s, %(unit)s, %(reference_range)s, %(flag)s)
+                    """,
+                    {
+                        "report_id":       report_id,
+                        "test_name":       r.get("test_name") or "Unknown",
+                        "value":           _parse_numeric(r.get("value")),
+                        "unit":            r.get("unit"),
+                        "reference_range": r.get("reference_range"),
+                        "flag":            flag,
+                    },
+                )
+
+            cur.execute(
+                "UPDATE documents SET patient_id = %(patient_id)s WHERE document_id = %(document_id)s",
+                {"patient_id": patient_id, "document_id": document_id},
+            )
+
+    log.info("[%s] Operational records written — patient_id=%s", document_id, patient_id)
+
+
+def _state_from_structured_json(raw_bytes: bytes) -> _ExtractionState:
+    """
+    Build an _ExtractionState from an already-structured PatientRecord JSON
+    payload (see upload.py's /upload/json endpoint) — the data is already
+    clean, so this skips OCR/Claude entirely.
+    """
+    payload = json.loads(raw_bytes)
+    state = _ExtractionState()
+    state.patient = {
+        "patient_name":        payload["patient"]["name"],
+        "patient_external_id": payload["patient"].get("external_id"),
+        "patient_dob":         payload["patient"].get("dob"),
+        "patient_gender":      payload["patient"].get("gender"),
+    }
+    state.report = {
+        "report_date":           payload["report"].get("date"),
+        "doctor":                payload["report"].get("doctor"),
+        "facility":              payload["report"].get("facility"),
+        "extraction_confidence": payload.get("extraction_confidence", 1.0),
+    }
+    state.results = [
+        {
+            "test_name":       r["test_name"],
+            "value":           r.get("value"),
+            "unit":            r.get("unit"),
+            "reference_range": r.get("reference_range"),
+            "flag":            r.get("flag"),
+        }
+        for r in payload.get("results", [])
+    ]
+    return state
+
+
+# ── Public entry points ────────────────────────────────────────────────────────
+
+def extract_pdf(
+    s3_key: str, document_id: str, tenant_id: str, facility_id: str, report_type: str,
+) -> tuple[str, str]:
+    """
+    Read a PDF from S3 bronze, extract structured patient + report + test result
+    data using a LangChain tool-calling agent, write the two silver Parquets,
+    and persist the same data into the operational Postgres tables.
 
     Returns (summary_key, results_key).
     """
@@ -185,40 +368,24 @@ def extract_pdf(s3_key: str, document_id: str, tenant_id: str, report_type: str)
         agent = _build_agent(state)
         agent.invoke({"input": full_text[:14000]})  # stay within token budget
 
-    now          = datetime.now(tz=timezone.utc)
-    extracted_at = now.isoformat()
-    partition    = (
-        f"tenant={tenant_id}"
-        f"/year={now.year}/month={now.month:02d}/day={now.day:02d}"
-    )
+    summary_key, results_key = _write_silver_parquets(document_id, tenant_id, report_type, state)
+    write_operational_records(document_id, tenant_id, facility_id, report_type, summary_key, state)
+    return summary_key, results_key
 
-    # 3. Write summary Parquet — one row per document
-    summary_df = pd.DataFrame([{
-        "document_id":           document_id,
-        "tenant_id":             tenant_id,
-        "report_type":           report_type,
-        **state.patient,
-        **state.report,
-        "extraction_status":     "completed",
-        "extracted_at":          extracted_at,
-    }])
-    summary_key = f"{SILVER_PREFIX}/ocr_extractions/{partition}/{document_id}.parquet"
-    _write_parquet(summary_df, summary_key)
 
-    # 4. Write results Parquet — one row per test result
-    results_rows = [
-        {"document_id": document_id, "tenant_id": tenant_id, **r, "extracted_at": extracted_at}
-        for r in state.results
-    ]
-    results_df = pd.DataFrame(results_rows) if results_rows else pd.DataFrame(columns=[
-        "document_id", "tenant_id", "test_name", "value",
-        "unit", "reference_range", "flag", "extracted_at",
-    ])
-    results_key = f"{SILVER_PREFIX}/ocr_results/{partition}/{document_id}.parquet"
-    _write_parquet(results_df, results_key)
+def extract_structured_json(
+    s3_key: str, document_id: str, tenant_id: str, facility_id: str, report_type: str,
+) -> tuple[str, str]:
+    """
+    Read an already-structured PatientRecord JSON from S3 bronze (uploaded via
+    /upload/json — no OCR needed since the data is already clean), write the
+    same two silver Parquets as extract_pdf(), and persist into Postgres.
 
-    log.info(
-        "OCR complete for %s — %d test results → s3://%s/{%s, %s}",
-        document_id, len(state.results), S3_BUCKET, summary_key, results_key,
-    )
+    Returns (summary_key, results_key).
+    """
+    raw_bytes = download_file(s3_key)
+    state = _state_from_structured_json(raw_bytes)
+
+    summary_key, results_key = _write_silver_parquets(document_id, tenant_id, report_type, state)
+    write_operational_records(document_id, tenant_id, facility_id, report_type, summary_key, state)
     return summary_key, results_key

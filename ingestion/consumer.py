@@ -32,7 +32,7 @@ from common.logger import get_logger
 from common.snowpipe import notify as snowpipe_notify
 from ingestion.config import BOOTSTRAP_SERVERS, CONSUMER_GROUP, TOPIC_REPORT_RECEIVED
 from scripts.ingest import ingest_file
-from scripts.ocr import extract_pdf
+from scripts.ocr import extract_pdf, extract_structured_json
 
 log = get_logger(__name__)
 
@@ -102,7 +102,19 @@ def _update_document_status(document_id: str, status: str, error_reason: str | N
                 )
 
 
-_STRUCTURED_EXTS = {".csv", ".json", ".jsonl", ".parquet"}
+_STRUCTURED_EXTS = {".csv", ".jsonl", ".parquet"}
+
+
+def _get_facility_id(document_id: str) -> str:
+    """documents.facility_id is set at upload time — look it up rather than
+    trusting the Kafka payload, which doesn't carry it."""
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT facility_id FROM documents WHERE document_id = %s", (document_id,))
+            row = cur.fetchone()
+            if row is None:
+                raise ValueError(f"No documents row for {document_id} — cannot resolve facility_id")
+            return row[0]
 
 
 def _process(payload: dict):
@@ -110,6 +122,7 @@ def _process(payload: dict):
     s3_path     = payload.get("s3_path", "")
     report_type = payload.get("report_type", "raw_data")
     tenant_id   = payload.get("tenant_id", "unknown")
+    source      = payload.get("source", "")
 
     log.info("[%s] Processing event — report_type=%s s3_path=%s", document_id, report_type, s3_path)
 
@@ -120,8 +133,29 @@ def _process(payload: dict):
     s3_key = _parse_s3_key(s3_path)
     ext    = Path(s3_key).suffix.lower()
 
-    if ext in _STRUCTURED_EXTS:
-        # 2a. Structured file — COPY directly from S3 bronze into the warehouse
+    if ext == ".pdf" or source == "json_upload":
+        # 2a. PDF — LangChain agent extracts patient + report + test results.
+        #     json_upload — data is already structured, OCR is skipped.
+        #     Either way: writes two silver Parquets, Snowpipe loads them
+        #     async, and the same data lands in the operational Postgres
+        #     tables (patients/reports/report_results) the product UI reads.
+        _update_document_status(document_id, "ocr" if ext == ".pdf" else "extracting")
+        try:
+            facility_id = _get_facility_id(document_id)
+            if ext == ".pdf":
+                summary_key, results_key = extract_pdf(s3_key, document_id, tenant_id, facility_id, report_type)
+            else:
+                summary_key, results_key = extract_structured_json(s3_key, document_id, tenant_id, facility_id, report_type)
+            snowpipe_notify(summary_key, table="ocr_extractions")
+            snowpipe_notify(results_key, table="ocr_results")
+            log.info("[%s] Extraction complete — Snowpipe notified for ocr_extractions + ocr_results", document_id)
+            _update_document_status(document_id, "extracted")
+        except Exception as e:
+            log.error("[%s] Extraction/Snowpipe failed (event still saved): %s", document_id, e)
+            _update_document_status(document_id, "failed", error_reason=str(e))
+
+    elif ext in _STRUCTURED_EXTS:
+        # 2b. Generic bulk file — COPY directly from S3 bronze into the warehouse
         _update_document_status(document_id, "extracting")
         try:
             ingest_file(s3_key, table=report_type)
@@ -129,20 +163,6 @@ def _process(payload: dict):
             _update_document_status(document_id, "loaded")
         except Exception as e:
             log.error("[%s] Ingestion failed (event still saved): %s", document_id, e)
-            _update_document_status(document_id, "failed", error_reason=str(e))
-
-    elif ext == ".pdf":
-        # 2b. PDF — LangChain agent extracts patient + report + test results,
-        #     writes two silver Parquets to S3, then Snowpipe loads them async.
-        _update_document_status(document_id, "ocr")
-        try:
-            summary_key, results_key = extract_pdf(s3_key, document_id, tenant_id, report_type)
-            snowpipe_notify(summary_key, table="ocr_extractions")
-            snowpipe_notify(results_key, table="ocr_results")
-            log.info("[%s] OCR complete — Snowpipe notified for ocr_extractions + ocr_results", document_id)
-            _update_document_status(document_id, "extracted")
-        except Exception as e:
-            log.error("[%s] OCR/Snowpipe failed (event still saved): %s", document_id, e)
             _update_document_status(document_id, "failed", error_reason=str(e))
 
     else:
