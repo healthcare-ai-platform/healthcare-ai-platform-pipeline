@@ -134,6 +134,21 @@ def create_raw_data_table():
         """).collect()
 
 
+def _enable_schema_evolution(session, table: str) -> None:
+    """
+    Let Snowpipe (MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE, see create_pipes())
+    add new columns automatically instead of silently dropping any column in the
+    incoming Parquet file that doesn't already exist on the table.
+
+    Runs unconditionally, even right after CREATE TABLE IF NOT EXISTS, because
+    that CREATE is a no-op on a table that already exists — this ALTER is what
+    actually applies the setting to tables created before this was added.
+    """
+    role = os.getenv("SNOWFLAKE_ROLE", "SYSADMIN")
+    session.sql(f"ALTER TABLE {table} SET ENABLE_SCHEMA_EVOLUTION = TRUE").collect()
+    session.sql(f"GRANT EVOLVE SCHEMA ON TABLE {table} TO ROLE {role}").collect()
+
+
 def create_ocr_extractions_table():
     """One row per document — patient demographics + report metadata."""
     with get_warehouse_session() as session:
@@ -153,7 +168,9 @@ def create_ocr_extractions_table():
                 extraction_confidence   FLOAT,
                 extracted_at            TIMESTAMP_TZ
             )
+            ENABLE_SCHEMA_EVOLUTION = TRUE
         """).collect()
+        _enable_schema_evolution(session, "RAW.OCR_EXTRACTIONS")
 
 
 def create_ocr_results_table():
@@ -170,7 +187,9 @@ def create_ocr_results_table():
                 flag            VARCHAR(16),
                 extracted_at    TIMESTAMP_TZ
             )
+            ENABLE_SCHEMA_EVOLUTION = TRUE
         """).collect()
+        _enable_schema_evolution(session, "RAW.OCR_RESULTS")
 
 
 def verify():
