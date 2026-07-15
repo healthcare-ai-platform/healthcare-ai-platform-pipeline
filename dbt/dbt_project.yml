@@ -22,3 +22,11 @@ models:
       +target_lag: "60 seconds"     # Dynamic Tables reject lag values under 60s
       +snowflake_warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'COMPUTE_WH') }}"
       +schema: marts
+
+tests:
+  healthcare_pipeline:
+    # A failing test (e.g. a null document_id in raw.ocr_results) writes the
+    # actual offending rows into HEALTHCARE.TEST_FAILURES.<test_name> instead of
+    # just reporting a pass/fail count — that's how you find which row failed.
+    +store_failures: true
+    +schema: test_failures

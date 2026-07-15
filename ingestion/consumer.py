@@ -24,13 +24,19 @@ from dotenv import load_dotenv
 
 load_dotenv()  # must run before local imports so env vars are set when modules load
 
-from kafka import KafkaConsumer  # kafka-python
+from kafka import KafkaConsumer, KafkaProducer  # kafka-python
 from kafka.errors import KafkaError
 
 from common.db import get_connection
 from common.logger import get_logger
 from common.snowpipe import notify as snowpipe_notify
-from ingestion.config import BOOTSTRAP_SERVERS, CONSUMER_GROUP, TOPIC_REPORT_RECEIVED
+from ingestion.config import (
+    BOOTSTRAP_SERVERS,
+    CONSUMER_GROUP,
+    MAX_PROCESSING_RETRIES,
+    TOPIC_REPORT_RECEIVED,
+    TOPIC_REPORT_RECEIVED_DLQ,
+)
 from scripts.ingest import ingest_file
 from scripts.ocr import extract_pdf, extract_structured_json
 
@@ -117,6 +123,39 @@ def _get_facility_id(document_id: str) -> str:
             return row[0]
 
 
+def _get_retry_count(document_id: str) -> int:
+    """
+    documents.retry_count is incremented by _update_document_status() every time
+    a document fails. A missing row (e.g. a malformed payload with no matching
+    document) can never succeed no matter how many times it's redelivered, so we
+    return a value past the retry budget to send it straight to the DLQ.
+    """
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT retry_count FROM documents WHERE document_id = %s", (document_id,))
+            row = cur.fetchone()
+            return row[0] if row is not None else MAX_PROCESSING_RETRIES + 1
+
+
+def _send_to_dlq(producer: KafkaProducer, payload: dict, error: str, retry_count: int) -> None:
+    """Route a message that exhausted its retry budget to the DLQ topic instead
+    of leaving it uncommitted forever (which would block every message behind it
+    on the same partition)."""
+    document_id = payload.get("document_id", "unknown")
+    dlq_message = {
+        **payload,
+        "error": error,
+        "retry_count": retry_count,
+        "original_topic": TOPIC_REPORT_RECEIVED,
+    }
+    producer.send(TOPIC_REPORT_RECEIVED_DLQ, dlq_message)
+    producer.flush()
+    log.error(
+        "[%s] Exceeded retry budget (%d) — routed to DLQ topic '%s': %s",
+        document_id, retry_count, TOPIC_REPORT_RECEIVED_DLQ, error,
+    )
+
+
 def _process(payload: dict):
     document_id = payload.get("document_id", "unknown")
     s3_path     = payload.get("s3_path", "")
@@ -153,6 +192,10 @@ def _process(payload: dict):
         except Exception as e:
             log.error("[%s] Extraction/Snowpipe failed (event still saved): %s", document_id, e)
             _update_document_status(document_id, "failed", error_reason=str(e))
+            # Re-raise so run()'s retry/DLQ logic sees the failure — previously
+            # this was swallowed here, so the offset got committed as if the
+            # message succeeded and it was never retried or routed to the DLQ.
+            raise
 
     elif ext in _STRUCTURED_EXTS:
         # 2b. Generic bulk file — COPY directly from S3 bronze into the warehouse
@@ -164,10 +207,12 @@ def _process(payload: dict):
         except Exception as e:
             log.error("[%s] Ingestion failed (event still saved): %s", document_id, e)
             _update_document_status(document_id, "failed", error_reason=str(e))
+            raise
 
     else:
         log.warning("[%s] Unknown file type '%s' — skipping ingestion", document_id, ext)
         _update_document_status(document_id, "failed", error_reason=f"Unsupported file type '{ext}'")
+        raise ValueError(f"Unsupported file type '{ext}'")
 
 
 def run():
@@ -186,6 +231,10 @@ def run():
         session_timeout_ms=30_000,
         heartbeat_interval_ms=10_000,
     )
+    producer = KafkaProducer(
+        bootstrap_servers=BOOTSTRAP_SERVERS,
+        value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+    )
 
     log.info("Listening on topic '%s' (group=%s)…", TOPIC_REPORT_RECEIVED, CONSUMER_GROUP)
 
@@ -201,16 +250,27 @@ def run():
                         # Commit only after the message is fully processed
                         consumer.commit()
                     except Exception as e:
-                        log.error(
-                            "Unhandled error on partition=%s offset=%s: %s",
-                            message.partition, message.offset, e,
-                        )
-                        # Don't commit — message will be re-delivered on restart
+                        document_id = message.value.get("document_id", "unknown")
+                        retry_count = _get_retry_count(document_id)
+                        if retry_count > MAX_PROCESSING_RETRIES:
+                            # Retry budget exhausted — route to the DLQ and commit so
+                            # this poison message doesn't block everything behind it
+                            # on the partition.
+                            _send_to_dlq(producer, message.value, str(e), retry_count)
+                            consumer.commit()
+                        else:
+                            log.error(
+                                "[%s] Processing failed (retry %d/%d) on partition=%s offset=%s: %s — will redeliver",
+                                document_id, retry_count, MAX_PROCESSING_RETRIES,
+                                message.partition, message.offset, e,
+                            )
+                            # Don't commit — message will be re-delivered on restart/rebalance
     except KafkaError as e:
         log.error("Kafka connection error: %s", e)
         sys.exit(1)
     finally:
         consumer.close()
+        producer.close()
         log.info("Consumer closed.")
 
 
