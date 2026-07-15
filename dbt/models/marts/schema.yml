@@ -20,6 +20,13 @@ models:
         tests: [not_null, unique]
       - name: document_id
         tests: [not_null]
+      - name: patient_key
+        description: "FK to dim_patients — null means the document's patient couldn't be matched"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_patients')
+              field: patient_key
       - name: test_name
         tests: [not_null]
       - name: flag

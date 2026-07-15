@@ -34,8 +34,8 @@ final as (
     from documents d
     left join patients p
         on  d.tenant_id = p.tenant_id
-        and coalesce(nullif(trim(d.patient_external_id), ''), trim(d.patient_name))
-          = coalesce(nullif(trim(p.patient_external_id),  ''), trim(p.patient_name))
+        and {{ patient_identity_key('d.patient_external_id', 'd.patient_name', 'd.patient_dob') }}
+          = {{ patient_identity_key('p.patient_external_id', 'p.patient_name', 'p.patient_dob') }}
 )
 
 select * from final
