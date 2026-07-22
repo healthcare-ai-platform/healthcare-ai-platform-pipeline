@@ -16,7 +16,7 @@ def backfill(prefix: str, table: str):
     keys = list_s3_files(prefix=prefix)
     log.info("Backfilling %d files under prefix '%s'", len(keys), prefix)
     for key in keys:
-        log.info("Clearing tracker for %s", key)
+        log.info("--Clearing tracker for %s--", key)
         clear(key)
         ingest_file(key, table)
 
